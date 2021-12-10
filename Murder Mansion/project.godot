@@ -11,7 +11,7 @@ config_version=4
 [application]
 
 config/name="Murder Mansion"
-run/main_scene="res://Scenes/Menus/Lobby.tscn"
+run/main_scene="res://Scenes/Players/player_controller.tscn"
 config/icon="res://icon.png"
 
 [physics]
