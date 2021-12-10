@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scenes/Players/player_controller.gd" type="Script" id=1]
+[ext_resource path="res://Assets/UIElements/crosshair_raw_file.png" type="Texture" id=2]
 
 [sub_resource type="CapsuleShape" id=1]
 
@@ -49,6 +50,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="crosshair" type="TextureRect" parent="player_hud"]
+[node name="crosshair" type="Control" parent="player_hud"]
 margin_right = 40.0
 margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="crosshair" type="TextureRect" parent="player_hud/crosshair"]
+margin_left = -54.0
+margin_top = -54.0
+margin_right = 1026.0
+margin_bottom = 1026.0
+rect_scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
