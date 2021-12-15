@@ -177,5 +177,34 @@ func process_inputs(delta):
 				* OBJECT_GRAB_DISTANCE)
 
 func process_movements(delta):
-	return
+	dir.y = 0
+	dir = dir.normalized()	
+	vel.y += delta * gravity
+	var hvel = vel
+	hvel.y = 0
+	var target = dir
+	target *= MAX_SPEED
+	var accel
+	if dir.dot(hvel) > 0:
+		accel = ACCEL
+	else:
+		accel = DEACCEL
+	hvel = hvel.linear_interpolate(target, accel * delta)
+	vel.x = hvel.x
+	vel.z = hvel.z
+	vel = move_and_slide(
+				vel, 
+				Vector3(0,1,0), 
+				0.05, 
+				4, 
+				deg2rad(MAX_SLOPE_ANGLE)
+			)
+	if is_network_master():
+		vel = move_and_slide(
+				vel, 
+				Vector3(0,1,0), 
+				0.05, 
+				4, 
+				deg2rad(MAX_SLOPE_ANGLE)
+			)
 	

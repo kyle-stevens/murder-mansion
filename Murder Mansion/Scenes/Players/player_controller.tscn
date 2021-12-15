@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Scenes/Players/player_controller.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/Player/player_controller.gd" type="Script" id=1]
 [ext_resource path="res://Assets/UIElements/crosshair_raw_file.png" type="Texture" id=2]
 
 [sub_resource type="CapsuleShape" id=1]
@@ -39,7 +39,7 @@ shape = SubResource( 3 )
 [node name="rotation_helper" type="Spatial" parent="."]
 
 [node name="player_camera" type="Camera" parent="rotation_helper"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.991563, 2.7294 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.992, -0.694313 )
 
 [node name="grab_objects_node" type="Spatial" parent="rotation_helper"]
 
