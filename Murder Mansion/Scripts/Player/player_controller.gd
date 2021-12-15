@@ -80,6 +80,8 @@ func _input(event):
 		rotation_helper.rotation_degrees = camera_rot
 
 func process_inputs(delta):
+	
+	
 	#check if player is jumping
 	if is_on_floor():
 		dir = Vector3()
@@ -93,14 +95,20 @@ func process_inputs(delta):
 	#animation handling will be changed to a state machine implemented here
 	
 	#motion input handling
+	
 	if Input.is_action_pressed("movement_forward"):
-		pass
+		input_movement_vector.y += 1
+		print("Forward")
 	if Input.is_action_pressed("movement_backward"):
-		pass
+		input_movement_vector.y -= 1
+		print("Backwards")
 	if Input.is_action_pressed("movement_left"):
-		pass
+		input_movement_vector.x -= 1
+		print("Left")
 	if Input.is_action_pressed("movement_right"):
-		pass
+		input_movement_vector.x += 1
+		print("Right")
+	
 	
 	input_movement_vector = input_movement_vector.normalized()
 	
@@ -192,13 +200,14 @@ func process_movements(delta):
 	hvel = hvel.linear_interpolate(target, accel * delta)
 	vel.x = hvel.x
 	vel.z = hvel.z
-	vel = move_and_slide(
-				vel, 
-				Vector3(0,1,0), 
-				0.05, 
-				4, 
-				deg2rad(MAX_SLOPE_ANGLE)
-			)
+	
+	#vel = move_and_slide(
+	#			vel, 
+	#			Vector3(0,1,0), 
+	#			0.05, 
+	#			4, 
+	#			deg2rad(MAX_SLOPE_ANGLE)
+	#		)
 	if is_network_master():
 		vel = move_and_slide(
 				vel, 
