@@ -14,6 +14,10 @@ config/name="Murder Mansion"
 run/main_scene="res://Scenes/Menus/Lobby.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Globals="*res://Scripts/Networking/globals.gd"
+
 [input]
 
 movement_forward={

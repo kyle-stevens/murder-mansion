@@ -14,17 +14,17 @@ func _ready():
 func _on_HostButton_pressed():
 	var net = NetworkedMultiplayerENet.new()
 	net.create_server(6000, 5)
-	get_tree().network_peer = net
+	get_tree().set_network_peer(net)
 	print("hosting")
 
 
 func _on_JoinButton_pressed():
 	var net = NetworkedMultiplayerENet.new()
 	net.create_client("127.0.0.1", 6000)
-	get_tree().network_peer = net
+	get_tree().set_network_peer(net)
 	
 func _player_connected(id):
-	#Globals.player2id = id
+	Globals.player2id = id
 	var game = preload("res://Scenes/Maps/PlatformDemo.tscn").instance()
 	get_tree().get_root().add_child(game)
 	print("player joined")
