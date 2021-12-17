@@ -40,6 +40,7 @@ shape = SubResource( 3 )
 
 [node name="player_camera" type="Camera" parent="rotation_helper"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.992, -0.694313 )
+visible = false
 
 [node name="grab_objects_node" type="Spatial" parent="rotation_helper"]
 
