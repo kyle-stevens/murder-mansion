@@ -1,0 +1,112 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Scripts/DemoScene.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/object_floating_lightcube.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/RigidBody.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/PressurePlate.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/RigidBodyCube.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/RigidBodyTriangle.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/knife-col.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/tableTest.tscn" type="PackedScene" id=8]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 5, 1, 5 )
+
+[sub_resource type="ProceduralSky" id=2]
+sky_top_color = Color( 0.0235294, 0.0235294, 0.0235294, 1 )
+sky_horizon_color = Color( 0.247059, 0.619608, 0.211765, 1 )
+sky_curve = 0.302722
+ground_bottom_color = Color( 0, 0, 0, 1 )
+ground_horizon_color = Color( 0.12549, 1, 0, 1 )
+
+[sub_resource type="Environment" id=3]
+background_mode = 2
+background_sky = SubResource( 2 )
+ambient_light_energy = 0.0
+ambient_light_sky_contribution = 0.0
+fog_color = Color( 0, 0, 0, 1 )
+fog_sun_color = Color( 0, 0, 0, 1 )
+fog_depth_enabled = false
+fog_depth_curve = 0.0346741
+fog_transmit_curve = 0.0334929
+
+[node name="DemoScene" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="StaticBody" type="StaticBody" parent="."]
+transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
+shape = SubResource( 1 )
+
+[node name="CSGBox" type="CSGBox" parent="StaticBody"]
+width = 10.0
+depth = 10.0
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.80902, 3.49662, 10.8848 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 3 )
+
+[node name="object_floating_lightcube" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.88282, 29.4316 )
+
+[node name="RigidBody" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 14, 10 )
+mass = 1.0
+
+[node name="PressurePlate" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24.225, 1, 22.716 )
+
+[node name="PressurePlate3" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1, 22.716 )
+
+[node name="PressurePlate4" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 1, 22.716 )
+
+[node name="PressurePlate2" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 1, 22.716 )
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+margin_left = 27.0
+margin_top = 28.0
+margin_right = 616.0
+margin_bottom = 86.0
+text = "WASD to Move
+SPACE to Jump
+R_MOUSE to Pick Up/Throw Highlighted Objects
+ESC to Free Cursor/Lock Cursor"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SpotLight" type="SpotLight" parent="."]
+transform = Transform( 0.750676, 2.88788e-08, -0.66067, 0.66067, -3.28131e-08, 0.750676, 0, -1, -4.37114e-08, -76.4847, 79.8952, 0 )
+light_color = Color( 0.486275, 0.47451, 0.47451, 1 )
+shadow_enabled = true
+spot_range = 162.3
+spot_attenuation = 0.901251
+spot_angle = 41.1
+spot_angle_attenuation = 5.27802
+
+[node name="RigidBody2" parent="." instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0 )
+mass = 2.0
+
+[node name="RigidBody3" parent="." instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.2704, 13.3313, -7.13952 )
+mass = 1.5
+weightOfObject = 0.25
+
+[node name="knife-col" parent="." instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.0965, 10.4744, -3.20949 )
+
+[node name="tableTest" parent="." instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 1.16526, 14.9594 )
+
+[node name="player1pos" type="Position3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -14.7897, 7.45734, 0 )
+
+[node name="player2pos" type="Position3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27.3738, 8.62254, 0 )
