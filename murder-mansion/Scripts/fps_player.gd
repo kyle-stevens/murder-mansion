@@ -63,6 +63,11 @@ func _ready():
 	#camera = $rotation_helper/player_camera
 	camera = $rotation_helper/head
 	camera.current = false
+	var camera_current = $rotation_helper/player_camera
+	if is_network_master():
+		camera_current.current = true
+	else:
+		camera_current.current = false
 	
 	#Rotation Helper
 	rotation_helper = $rotation_helper
@@ -352,13 +357,22 @@ func process_movement(delta):
 	hvel = hvel.linear_interpolate(target, accel * delta)
 	vel.x = hvel.x
 	vel.z = hvel.z
-	vel = move_and_slide(
-		vel, 
-		Vector3(0,1,0), 
-		0.05, 
-		4, 
-		deg2rad(MAX_SLOPE_ANGLE)
-	)
+	if is_network_master():
+		vel = move_and_slide(
+			vel, 
+			Vector3(0,1,0), 
+			0.05, 
+			4, 
+			deg2rad(MAX_SLOPE_ANGLE)
+		)
+	rpc_unreliable("_set_position", global_transform.origin)	
+#	vel = move_and_slide(
+#		vel, 
+#		Vector3(0,1,0), 
+#		0.05, 
+#		4, 
+#		deg2rad(MAX_SLOPE_ANGLE)
+#	)
 	
 
 remote func _set_position(pos):

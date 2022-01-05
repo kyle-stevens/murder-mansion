@@ -11,7 +11,7 @@ config_version=4
 [application]
 
 config/name="murdermansion"
-run/main_scene="res://Scenes/DemoScene.tscn"
+run/main_scene="res://Scenes/Lobby.tscn"
 config/icon="res://Assets/icon.png"
 
 [display]
