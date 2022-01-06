@@ -10,6 +10,8 @@ extends KinematicBody
 #set up some sort of switch for this
 #onready var animPlayer = get_node("player_model/femaleModel/AnimationPlayer")
 onready var animPlayer = get_node("player_model/maleModel/AnimationPlayer")
+#getting the fps-ness back
+export(NodePath) onready var model = get_node("player_model") as Spatial
 
 var dead = false
 
@@ -55,19 +57,15 @@ var reticle
 
 func _ready():
 	
-	
+	model.visible = false
 	
 	
 	
 	#Camera
 	#camera = $rotation_helper/player_camera
 	camera = $rotation_helper/head
-	camera.current = false
+	camera.current = true
 	var camera_current = $rotation_helper/player_camera
-	if is_network_master():
-		camera_current.current = true
-	else:
-		camera_current.current = false
 	
 	#Rotation Helper
 	rotation_helper = $rotation_helper
@@ -357,22 +355,14 @@ func process_movement(delta):
 	hvel = hvel.linear_interpolate(target, accel * delta)
 	vel.x = hvel.x
 	vel.z = hvel.z
-	if is_network_master():
-		vel = move_and_slide(
-			vel, 
-			Vector3(0,1,0), 
-			0.05, 
-			4, 
-			deg2rad(MAX_SLOPE_ANGLE)
-		)
-	rpc_unreliable("_set_position", global_transform.origin)	
-#	vel = move_and_slide(
-#		vel, 
-#		Vector3(0,1,0), 
-#		0.05, 
-#		4, 
-#		deg2rad(MAX_SLOPE_ANGLE)
-#	)
+
+	vel = move_and_slide(
+		vel, 
+		Vector3(0,1,0), 
+		0.05, 
+		4, 
+		deg2rad(MAX_SLOPE_ANGLE)
+	)
 	
 
 remote func _set_position(pos):

@@ -54,10 +54,10 @@ visible = false
 
 [node name="head" type="Camera" parent="rotation_helper"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.39, 0.00883722 )
+current = true
 
 [node name="player_camera" type="Camera" parent="rotation_helper"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.39, 2.5 )
-current = true
 near = 0.1
 
 [node name="gun_fire_points" type="Spatial" parent="rotation_helper"]

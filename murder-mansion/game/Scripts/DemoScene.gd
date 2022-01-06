@@ -9,7 +9,7 @@ func _ready():
 	player1.set_network_master(get_tree().get_network_unique_id())
 	player1.global_transform = player1pos.global_transform
 	add_child(player1)
-	#return
+	return
 	var player2 = preload("res://Scenes/fps_player.tscn").instance()
 	player2.set_name(str(get_tree().get_network_unique_id()))
 	player2.set_network_master(get_tree().get_network_unique_id())

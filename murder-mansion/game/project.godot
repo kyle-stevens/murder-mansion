@@ -99,12 +99,13 @@ _global_script_class_icons={
 [application]
 
 config/name="murdermansion"
-run/main_scene="res://Scenes/Lobby.tscn"
+run/main_scene="res://Scenes/Map.tscn"
 config/icon="res://Assets/icon.png"
 
 [autoload]
 
 Nakama="*res://addons/com.heroiclabs.nakama/Nakama.gd"
+Network="*res://Scripts/network.gd"
 
 [display]
 
