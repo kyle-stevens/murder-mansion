@@ -19,11 +19,6 @@ extents = Vector3( 0.45, 0.318, 0.45 )
 
 [node name="fps_player" type="KinematicBody"]
 script = ExtResource( 1 )
-model = NodePath("player_model/maleModel")
-head = NodePath("rotation_helper")
-camera = NodePath("rotation_helper/head")
-network_tick_rate = NodePath("NetworkTickRate")
-movement_tween = NodePath("MovementTween")
 
 [node name="marker" type="CSGPolygon" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.79816, 0 )
@@ -60,6 +55,10 @@ visible = false
 [node name="head" type="Camera" parent="rotation_helper"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.39, 0.00883722 )
 current = true
+
+[node name="player_camera" type="Camera" parent="rotation_helper"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.39, 2.5 )
+near = 0.1
 
 [node name="gun_fire_points" type="Spatial" parent="rotation_helper"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.89, -2 )
@@ -110,13 +109,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="NetworkTickRate" type="Timer" parent="."]
-wait_time = 0.03
-autostart = true
-
-[node name="MovementTween" type="Tween" parent="."]
-
 [connection signal="body_entered" from="damage_area" to="." method="_on_damage_area_body_entered"]
 [connection signal="body_entered" from="rotation_helper/gun_fire_points/grab_objects/Area" to="." method="_on_Area_body_entered"]
 [connection signal="body_exited" from="rotation_helper/gun_fire_points/grab_objects/Area" to="." method="_on_Area_body_exited"]
-[connection signal="timeout" from="NetworkTickRate" to="." method="_on_NetworkTickRate_timeout"]
