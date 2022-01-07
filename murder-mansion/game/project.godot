@@ -106,6 +106,7 @@ config/icon="res://Assets/icon.png"
 
 Nakama="*res://addons/com.heroiclabs.nakama/Nakama.gd"
 Network="*res://Scripts/network.gd"
+Global="*res://Scripts/global.gd"
 
 [display]
 

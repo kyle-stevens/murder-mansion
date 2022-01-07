@@ -64,7 +64,8 @@ func _ready():
 	#Camera
 	#camera = $rotation_helper/player_camera
 	camera = $rotation_helper/head
-	camera.current = true
+	if is_network_master():
+		camera.current = true
 	var camera_current = $rotation_helper/player_camera
 	
 	#Rotation Helper
