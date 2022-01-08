@@ -78,7 +78,10 @@ width = 10.0
 depth = 10.0
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
-transform = Transform( 0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, 0.5, 0, 0, 0 )
+transform = Transform( 0.146447, -0.853553, 0.5, 0.5, 0.5, 0.707107, -0.853553, 0.146447, 0.5, 0, 20.1031, 0 )
+light_color = Color( 0.368627, 1, 0.0470588, 1 )
+light_energy = 0.1
+light_indirect_energy = 0.1
 shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]

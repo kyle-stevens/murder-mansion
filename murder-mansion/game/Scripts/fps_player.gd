@@ -7,6 +7,7 @@ extends KinematicBody
 var puppet_position = Vector3()
 var puppet_velocity = Vector3()
 var puppet_rotation = Vector3()
+var puppet_flashlight = true
 
 #Animation
 #set up some sort of switch for this
@@ -368,6 +369,7 @@ func process_movement(delta):
 		vel.z = puppet_velocity.z
 		rotation.y = puppet_rotation.y
 		head.rotation.x = puppet_rotation.x
+		flashlight.visible = puppet_flashlight
 	
 	if !movement_tween.is_active():
 		vel = move_and_slide(
@@ -425,10 +427,11 @@ func _on_damage_area_body_entered(body):
 		#implement damage here
 		
 	
-puppet func update_state(p_position, p_velocity, p_rotation):
+puppet func update_state(p_position, p_velocity, p_rotation, p_flashlight_on):
 	puppet_position = p_position
 	puppet_rotation = p_rotation
 	puppet_velocity = p_velocity
+	puppet_flashlight = p_flashlight_on
 	
 	movement_tween.interpolate_property(self, "global_transform", global_transform, Transform(global_transform.basis, p_position), 0.1)
 	movement_tween.start()
@@ -438,6 +441,6 @@ puppet func update_state(p_position, p_velocity, p_rotation):
 
 func _on_NetworkTickRate_timeout():
 	if is_network_master():
-		rpc_unreliable("update_state", global_transform.origin, vel, Vector2(head.rotation.x, rotation.y))
+		rpc_unreliable("update_state", global_transform.origin, vel, Vector2(head.rotation.x, rotation.y), flashlight.visible)
 	else:
 		network_tick_rate.stop()
