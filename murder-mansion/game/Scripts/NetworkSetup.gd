@@ -1,5 +1,7 @@
 extends Control
 
+var _player_name = "Player"
+
 func _ready():
 	Global.connect("toggle_network_setup",self,"_toggle_network_setup")
 
@@ -19,3 +21,7 @@ func _on_Join_pressed():
 
 func _toggle_network_setup(visible_toggle):
 	visible = visible_toggle
+	
+
+
+

@@ -1,5 +1,7 @@
 extends KinematicBody
 
+var player_name = ""
+
 #To Do List
 #->Adding in Damage and Demo Networking
 #->Code Refactoring
@@ -65,7 +67,6 @@ var reticle
 
 func _ready():
 	
-
 	camera.current = is_network_master()
 	model.visible = !is_network_master()
 	
@@ -371,6 +372,7 @@ func process_movement(delta):
 		rotation.y = puppet_rotation.y
 		head.rotation.x = puppet_rotation.x
 		flashlight.visible = puppet_flashlight
+		
 	
 	if !movement_tween.is_active():
 		vel = move_and_slide(
@@ -428,13 +430,13 @@ func _on_damage_area_body_entered(body):
 		#implement damage here
 		
 	
-puppet func update_state(p_position, p_velocity, p_rotation, p_flashlight_on, p_animation):
+puppet func update_state(p_position, p_velocity, p_rotation, p_flashlight_on, p_animation, p_player_name):
 	puppet_position = p_position
 	puppet_rotation = p_rotation
 	puppet_velocity = p_velocity
 	puppet_flashlight = p_flashlight_on
 	puppet_animation = p_animation
-	
+	player_name = p_player_name #player username
 	movement_tween.interpolate_property(self, "global_transform", global_transform, Transform(global_transform.basis, p_position), 0.1)
 	movement_tween.start()
 	
@@ -443,6 +445,6 @@ puppet func update_state(p_position, p_velocity, p_rotation, p_flashlight_on, p_
 
 func _on_NetworkTickRate_timeout():
 	if is_network_master():
-		rpc_unreliable("update_state", global_transform.origin, vel, Vector2(head.rotation.x, rotation.y), flashlight.visible, animPlayer.current_animation)
+		rpc_unreliable("update_state", global_transform.origin, vel, Vector2(head.rotation.x, rotation.y), flashlight.visible, animPlayer.current_animation, player_name)
 	else:
 		network_tick_rate.stop()
