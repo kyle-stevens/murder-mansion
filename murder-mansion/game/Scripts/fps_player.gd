@@ -12,6 +12,7 @@ var puppet_rotation = Vector3()
 var puppet_flashlight = true
 var puppet_animation = "default"
 
+
 #Animation
 #set up some sort of switch for this
 #onready var animPlayer = get_node("player_model/femaleModel/AnimationPlayer")
@@ -65,7 +66,17 @@ export var MOUSE_SENSITIVITY = 0.05
 #UI
 var reticle
 
+
 func _ready():
+	
+	var ParentUI = get_tree().get_root().get_node("Map/InGameUi/PlayerList")
+	var new_label: RichTextLabel = RichTextLabel.new()
+	new_label.rect_size = Vector2(400,15)
+	new_label.fit_content_height = true
+	new_label.text = player_name
+	ParentUI.add_child(new_label)
+	ParentUI.update()
+	
 	
 	camera.current = is_network_master()
 	model.visible = !is_network_master()
@@ -372,6 +383,7 @@ func process_movement(delta):
 		rotation.y = puppet_rotation.y
 		head.rotation.x = puppet_rotation.x
 		flashlight.visible = puppet_flashlight
+		
 		
 	
 	if !movement_tween.is_active():

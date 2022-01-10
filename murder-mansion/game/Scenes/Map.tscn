@@ -119,6 +119,7 @@ __meta__ = {
 }
 
 [connection signal="text_changed" from="NetworkSetup/VBoxContainer/PlayerName" to="." method="_on_PlayerName_text_changed"]
+[connection signal="text_changed" from="NetworkSetup/VBoxContainer/PlayerName" to="NetworkSetup" method="_on_PlayerName_text_changed"]
 [connection signal="text_changed" from="NetworkSetup/VBoxContainer/IpAddress" to="NetworkSetup" method="_on_IpAddress_text_changed"]
 [connection signal="pressed" from="NetworkSetup/VBoxContainer/Host" to="NetworkSetup" method="_on_Host_pressed"]
 [connection signal="pressed" from="NetworkSetup/VBoxContainer/Join" to="NetworkSetup" method="_on_Join_pressed"]

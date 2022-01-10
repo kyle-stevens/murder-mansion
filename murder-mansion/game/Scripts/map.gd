@@ -25,11 +25,13 @@ func _instance_player(id):
 	player_instance.name = str(id)
 	add_child(player_instance)
 	player_instance.global_transform.origin = Vector3(0,15,0)
-	var new_label: RichTextLabel = RichTextLabel.new()
-	new_label.rect_size = Vector2(400,15)
-	new_label.fit_content_height = true
-	new_label.text = "\t" + player_instance.player_name
-	$InGameUi/PlayerList.add_child(new_label)
+#	var new_label: RichTextLabel = RichTextLabel.new()
+#	new_label.rect_size = Vector2(400,15)
+#	new_label.fit_content_height = true
+#	new_label.text = "\t" + player_instance.player_name
+#	$InGameUi/PlayerList.add_child(new_label)
+#	#$InGameUi/PlayerList/Title.text = player_instance.player_name
+#	$InGameUi.update()
 	print("Player Name is: "  + player_instance.player_name)
 
 func _player_connected(id):
