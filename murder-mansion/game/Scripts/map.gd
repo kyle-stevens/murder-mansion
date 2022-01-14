@@ -3,19 +3,29 @@ extends Spatial
 
 var player = preload("res://Scenes/fps_player.tscn")
 var _player_name = "player_"
+var knife = preload("res://Scenes/knife-col.tscn")
+
+
+
+
 
 func _ready():
+
 	$InGameUi.visible = false
 	get_tree().connect("network_peer_connected", self, "_player_connected")
 	get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
 	
 	Global.connect("instance_player", self, "_instance_player")
 	
+	
 	if get_tree().network_peer != null:
 		Global.emit_signal("toggle_network_setup", false)
 		$InGameUi.visible = true
 		
-		
+	
+
+
+	
 func _instance_player(id):
 	$InGameUi.visible = true
 	print("Player Created with ID: "+str(id))
@@ -28,7 +38,7 @@ func _instance_player(id):
 	var new_label: RichTextLabel = RichTextLabel.new()
 	new_label.rect_size = Vector2(400,15)
 	new_label.fit_content_height = true
-	new_label.text = "\t" + str(id)
+	new_label.text = "\t" + player_instance.player_name #str(id)
 	$InGameUi/PlayerList.add_child(new_label)
 	#$InGameUi/PlayerList/Title.text = player_instance.player_name
 	$InGameUi.update()

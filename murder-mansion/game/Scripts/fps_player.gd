@@ -319,7 +319,7 @@ func process_inputs(delta):
 							#front facing in blender is also how the object is 
 							#oriented at 0,0,0 rotation
 							grabbed_object.rotation = Vector3(0,-90,0)
-							grabbed_object.set_visible(false)
+							#grabbed_object.set_visible(false)
 							#Setup logic for holding object in hand here
 							
 				else:
