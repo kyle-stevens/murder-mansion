@@ -1,8 +1,7 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/NetworkSetup.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/map.gd" type="Script" id=2]
-[ext_resource path="res://Scenes/knife-col.tscn" type="PackedScene" id=3]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 5, 1, 5 )
@@ -27,9 +26,6 @@ fog_transmit_curve = 0.0334929
 
 [node name="Map" type="Spatial"]
 script = ExtResource( 2 )
-
-[node name="knife-col" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.05173, 0 )
 
 [node name="NetworkSetup" type="Control" parent="."]
 anchor_right = 1.0

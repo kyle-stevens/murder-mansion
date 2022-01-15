@@ -12,6 +12,9 @@ var puppet_rotation = Vector3()
 var puppet_flashlight = true
 var puppet_animation = "default"
 
+var object_name = "none"
+var object_transform
+
 
 #Animation
 #set up some sort of switch for this
@@ -52,7 +55,7 @@ export var x_range = 70
 
 #Grabbing RigidBodys
 var grabbed_object = null
-export var OBJECT_THROW_FORCE = 120 #change to const upon balancing
+export var OBJECT_THROW_FORCE = 2#120 #change to const upon balancing
 export var OBJECT_GRAB_DISTANCE = 7 #change to const upon balancing
 export var OBJECT_GRAB_RAY_DISTANCE = 10 #change to const upon balancing
 var object_detection
@@ -123,6 +126,13 @@ func _physics_process(delta):
 	
 	process_inputs(delta)
 	process_movement(delta)
+	
+	#print(object_name)
+	#print(grabbed_object)
+	if object_name != "none": #change to a check if the value has changed
+		var node_Test = get_tree().get_root().get_node(object_name)
+		print(node_Test)
+		
 
 
 func _input(event):
@@ -311,9 +321,12 @@ func process_inputs(delta):
 						
 						if ray_result["collider"] is RigidBody:
 							grabbed_object = ray_result["collider"]
+							
+							
 							grabbed_object.mode = RigidBody.MODE_STATIC
 							grabbed_object.collision_layer = 0 #original is 0
 							grabbed_object.collision_mask = 0 #original is 0
+							#print(grabbed_object.name)
 							#Just for Size Purposes with test object
 							#grabbed_object.scale = grabbed_object.scale * .5
 							#front facing in blender is also how the object is 
@@ -348,7 +361,7 @@ func process_inputs(delta):
 				grabbed_object.global_transform.origin = \
 						camera.global_transform.origin \
 						+ (-camera.global_transform.basis.z.normalized() \
-						* OBJECT_GRAB_DISTANCE)
+						* (OBJECT_GRAB_DISTANCE / 3))
 
 
 func process_movement(delta):
@@ -383,7 +396,7 @@ func process_movement(delta):
 		rotation.y = puppet_rotation.y
 		head.rotation.x = puppet_rotation.x
 		flashlight.visible = puppet_flashlight
-		
+	
 		
 	
 	if !movement_tween.is_active():
@@ -442,7 +455,7 @@ func _on_damage_area_body_entered(body):
 		#implement damage here
 		
 	
-puppet func update_state(p_position, p_velocity, p_rotation, p_flashlight_on, p_animation, p_player_name):
+puppet func update_state(p_position, p_velocity, p_rotation, p_flashlight_on, p_animation, p_player_name, held_object_name, held_object_position):
 	puppet_position = p_position
 	puppet_rotation = p_rotation
 	puppet_velocity = p_velocity
@@ -451,12 +464,22 @@ puppet func update_state(p_position, p_velocity, p_rotation, p_flashlight_on, p_
 	player_name = p_player_name #player username
 	movement_tween.interpolate_property(self, "global_transform", global_transform, Transform(global_transform.basis, p_position), 0.1)
 	movement_tween.start()
+	#######################################################################################################################
+	print(held_object_name) #object name only appears in other peers, will need to focus on how to implement for multiple concurrent objects
+	#######################################################################################################################
+	object_name = held_object_name
+	object_transform = held_object_position
+	
+	
 	
 
 
 
 func _on_NetworkTickRate_timeout():
 	if is_network_master():
-		rpc_unreliable("update_state", global_transform.origin, vel, Vector2(head.rotation.x, rotation.y), flashlight.visible, animPlayer.current_animation, player_name)
+		if grabbed_object != null:
+			rpc_unreliable("update_state", global_transform.origin, vel, Vector2(head.rotation.x, rotation.y), flashlight.visible, animPlayer.current_animation, player_name, grabbed_object.name, grabbed_object.global_transform.origin)
+		else:
+			rpc_unreliable("update_state", global_transform.origin, vel, Vector2(head.rotation.x, rotation.y), flashlight.visible, animPlayer.current_animation, player_name, "none", "none")
 	else:
 		network_tick_rate.stop()
