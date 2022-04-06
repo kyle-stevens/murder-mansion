@@ -3,7 +3,7 @@ extends Spatial
 
 var player = preload("res://Scenes/fps_player.tscn")
 var _player_name = "player_"
-var knife = preload("res://Scenes/knife-col.tscn")
+
 
 
 
@@ -22,11 +22,7 @@ func _ready():
 		Global.emit_signal("toggle_network_setup", false)
 		$InGameUi.visible = true
 		
-	var knife_i = knife.instance()
-	knife_i.global_transform.origin = Vector3(0,20,0)
-	knife_i.name = "knife_1"
-	add_child(knife_i)
-	print(knife_i)
+	
 
 
 	

@@ -28,6 +28,7 @@ export(NodePath) onready var network_tick_rate = get_node(network_tick_rate) as 
 export(NodePath) onready var movement_tween = get_node(movement_tween) as Tween
 
 var dead = false
+var killer = true
 
 #Basic Movement
 const ACCEL = 4.5
