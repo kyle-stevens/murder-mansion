@@ -83,7 +83,7 @@ func _ready():
 	
 	
 	camera.current = is_network_master()
-	model.visible = !is_network_master()
+	model.visible = is_network_master() #normally !
 	
 	
 	#Camera
@@ -122,6 +122,15 @@ func _ready():
 
 
 func _physics_process(delta):
+	if Input.is_action_just_pressed("camera"):
+		if camera.transform.origin == Vector3(0,1.4,4.4):
+			camera.transform.origin = Vector3(0,1.4,0)
+			model.visible = !is_network_master() #normally !
+		else:
+			camera.transform.origin = Vector3(0,1.4,4.4)
+			model.visible = is_network_master() #normally !
+		
+	
 	if dead:
 		gravity = 0
 	
@@ -286,7 +295,7 @@ func process_inputs(delta):
 			
 			#Sprinting Movement
 			if Input.is_action_pressed("movement_sprint"):
-				#is_sprinting = true
+				is_sprinting = true
 				pass
 				#sprinting removed for the moment
 			else:

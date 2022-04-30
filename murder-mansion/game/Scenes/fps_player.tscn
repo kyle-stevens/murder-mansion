@@ -58,7 +58,7 @@ visible = false
 [node name="rotation_helper" type="Spatial" parent="."]
 
 [node name="head" type="Camera" parent="rotation_helper"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.39, 0.00883722 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 4.4 )
 current = true
 
 [node name="gun_fire_points" type="Spatial" parent="rotation_helper"]
@@ -85,11 +85,9 @@ spot_angle_attenuation = 0.420448
 [node name="player_hud" type="Control" parent="."]
 margin_right = 40.0
 margin_bottom = 40.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Reticle" type="Control" parent="player_hud"]
+visible = false
 margin_right = 40.0
 margin_bottom = 40.0
 __meta__ = {
