@@ -1,0 +1,22 @@
+extends Control
+
+onready var user = get_node("PanelContainer/MarginContainer/VBoxContainer/GridContainer/user")
+onready var password = get_node("PanelContainer/MarginContainer/VBoxContainer/GridContainer/password")
+onready var http_request = HTTPRequest.new()
+
+func _ready():
+	#HTTP request node
+	add_child(http_request)
+	http_request.connect("request_completed", self, "_http_request_completed")
+	
+func _http_request_completed(result, response_code, headers, body):
+	var response = parse_json(body.get_string_from_utf8())
+	print(response)
+
+
+
+func _on_Button_pressed():
+	var fields = {"username" : user.text, "password" : password.text}
+	var result = http_request.request("http://127.0.0.1:5000/register", PoolStringArray(['Content-Type: application/json']), false, 2, to_json(fields))
+	if result != OK:
+		push_error("An error occurred in the HTTP request")
