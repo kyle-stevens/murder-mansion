@@ -19,8 +19,8 @@ def join():
         servers[new_user["server"]].append(new_user["username"])
         return {"server users" : servers[new_user["server"]]}
     else:
-        return {"error" : "no such server exists"}
-    return {"my": "login"}
+        return {"status" : "no such server exists"}
+    return {"status": "None"}
 
 @app.route('/host', methods=['POST'])
 def host():
@@ -30,8 +30,10 @@ def host():
     if new_user["username"] in servers:
         return {"error" : "fatal flaw, user is already in a server room"}
     else:
-        return {"server" : ''.join(random.choices(string.ascii_uppercase + string.digits, k = 6))}
-    return {"my": "login"}
+        server = ''.join(random.choices(string.ascii_uppercase + string.digits, k = 6))
+        servers[server] = [new_user["username"]]
+        return {"server" : server}
+    return {"server": "None"}
 
 if __name__ == '__main__':
     app.run()

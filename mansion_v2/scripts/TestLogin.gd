@@ -14,13 +14,15 @@ func _ready():
 func _http_request_completed(result, response_code, headers, body):
 	var response = parse_json(body.get_string_from_utf8())
 	print(response)
+	if response.has("server"):
+		print(response["server"])
+		host = response["server"]
 
 func _on_Join_pressed():
 	var fields = {"username" : user.text, "server" : server.text}
 	var result = http_request.request("http://127.0.0.1:5000/join", PoolStringArray(['Content-Type: application/json']), false, 2, to_json(fields))
 	if result != OK:
 		push_error("An error occurred in the HTTP request")
-
 
 func _on_Host_pressed():
 	var fields = {"username" : user.text, "empty" : "empty"}
