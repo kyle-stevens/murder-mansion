@@ -1,0 +1,49 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Assets/new_models_player/yBot/ybot.dae" type="PackedScene" id=1]
+[ext_resource path="res://Assets/new_models_player/animations/animationWalk.tres" type="Animation" id=2]
+[ext_resource path="res://Assets/new_models_player/animations/animationIdle.tres" type="Animation" id=3]
+[ext_resource path="res://Scenes/ybot_animated_test.gd" type="Script" id=4]
+[ext_resource path="res://Assets/topHatRough/topHatRough.obj" type="ArrayMesh" id=5]
+
+[node name="ybot" instance=ExtResource( 1 )]
+script = ExtResource( 4 )
+
+[node name="HeadAttachment" type="BoneAttachment" parent="Skeleton" index="2"]
+transform = Transform( 0.997765, -0.00226981, -0.0667824, 0.00212382, 0.999996, -0.00225606, 0.0667869, 0.00210918, 0.997764, -0.0187407, 1.54774, 0.0464547 )
+bone_name = "mixamorig_Head"
+
+[node name="MeshInstance" type="MeshInstance" parent="Skeleton/HeadAttachment" index="0"]
+transform = Transform( 0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0.125292, 0 )
+mesh = ExtResource( 5 )
+material/0 = null
+material/1 = null
+
+[node name="BackAttachment" type="BoneAttachment" parent="Skeleton" index="3"]
+transform = Transform( 0.998425, -0.0376381, -0.0416155, 0.0366497, 0.999034, -0.0242625, 0.0424882, 0.022699, 0.998838, -0.013548, 1.44539, 0.012724 )
+bone_name = "mixamorig_Neck"
+
+[node name="MeshInstance" type="MeshInstance" parent="Skeleton/BackAttachment" index="0"]
+
+[node name="FlashlightAttachment" type="BoneAttachment" parent="Skeleton" index="4"]
+transform = Transform( -0.301523, -0.945504, 0.122906, 0.904222, -0.324455, -0.277691, 0.302435, 0.0274039, 0.952776, -0.255814, 0.688537, -0.200888 )
+bone_name = "mixamorig_RightHandMiddle1"
+
+[node name="CSGCylinder" type="CSGCylinder" parent="Skeleton/FlashlightAttachment" index="0"]
+transform = Transform( 1, 0, 0, 0, -4.37103e-08, -1, 0, 1, -4.37103e-08, 0.0488461, -0.0350053, 1.82167e-06 )
+radius = 0.025
+height = 0.15
+sides = 32
+
+[node name="CSGCylinder2" type="CSGCylinder" parent="Skeleton/FlashlightAttachment" index="1"]
+transform = Transform( 1, 0, 0, 0, -4.37103e-08, -1, 0, 1, -4.37103e-08, 0.0488461, -0.0350014, 0.0764418 )
+radius = 0.05
+height = 0.02
+sides = 32
+
+[node name="SpotLight" type="SpotLight" parent="Skeleton/FlashlightAttachment" index="2"]
+transform = Transform( 1, 0, 0, 0, -1, 8.74243e-08, 0, -8.74243e-08, -1, 0, 5.00679e-06, 0.0967766 )
+
+[node name="AnimationPlayer" parent="." index="1"]
+anims/animationIdle = ExtResource( 3 )
+anims/animationWalk = ExtResource( 2 )

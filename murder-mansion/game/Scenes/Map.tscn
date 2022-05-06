@@ -1,9 +1,7 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/NetworkSetup.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/map.gd" type="Script" id=2]
-[ext_resource path="res://Scenes/knife_pickup.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Scenes/knife-col.tscn" type="PackedScene" id=4]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 5, 1, 5 )
@@ -113,12 +111,6 @@ fit_content_height = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="knife_pickup" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, -2 )
-
-[node name="knife-col" parent="." instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -14.3458, 12.3811, -12.4888 )
 
 [connection signal="text_changed" from="NetworkSetup/VBoxContainer/PlayerName" to="." method="_on_PlayerName_text_changed"]
 [connection signal="text_changed" from="NetworkSetup/VBoxContainer/PlayerName" to="NetworkSetup" method="_on_PlayerName_text_changed"]

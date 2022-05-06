@@ -83,7 +83,7 @@ func _ready():
 	
 	
 	camera.current = is_network_master()
-	#model.visible = is_network_master() #normally !
+	
 	
 	
 	#Camera
@@ -125,10 +125,8 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("camera"):
 		if camera.transform.origin == Vector3(0,1.4,4.4):
 			camera.transform.origin = Vector3(0,1.4,0)
-			#model.visible = !is_network_master() #normally !
 		else:
 			camera.transform.origin = Vector3(0,1.4,4.4)
-			#model.visible = is_network_master() #normally !
 		
 	
 	if dead:
@@ -137,8 +135,6 @@ func _physics_process(delta):
 	process_inputs(delta)
 	process_movement(delta)
 	
-	#print(object_name)
-	#print(grabbed_object)
 	if object_name != "none": #change to a check if the value has changed
 		var node_Test = get_tree().get_root().get_node(object_name)
 		print(node_Test)
@@ -226,46 +222,6 @@ func process_inputs(delta):
 				animPlayer.play("default")
 			if not is_on_floor():
 				animPlayer.play("jump")
-	#		if Input.is_action_pressed("movement_forward") and is_on_floor():
-	#			input_movement_vector.y += 1
-	#			if Input.is_action_pressed("movement_left"):
-	#				input_movement_vector.x -= 1
-	#				animPlayer.play("leftstrafe")
-	#			elif Input.is_action_pressed("movement_right"):
-	#				input_movement_vector.x += 1
-	#				animPlayer.play("rightstrafe")
-	#			else:
-	#				animPlayer.play("walk")
-	#		if Input.is_action_pressed("movement_backward") and is_on_floor():
-	#			input_movement_vector.y -= 1
-	#			if Input.is_action_pressed("movement_left"):
-	#				input_movement_vector.x -= 1
-	#				animPlayer.play_backwards("rightstrafe")
-	#			elif Input.is_action_pressed("movement_right"):
-	#				input_movement_vector.x += 1
-	#				animPlayer.play_backwards("leftstrafe")
-	#			else:
-	#				animPlayer.play_backwards("walk")
-	#		if Input.is_action_pressed("movement_left") and is_on_floor():
-	#			input_movement_vector.x -= 1
-	#			if Input.is_action_pressed("movement_forward"):
-	#				input_movement_vector.y += 1
-	#				animPlayer.play("leftstrafe")
-	#			elif Input.is_action_pressed("movement_backwards"):
-	#				input_movement_vector.y -= 1
-	#				animPlayer.play_backwards("rightstrafe")
-	#			else:
-	#				animPlayer.play("leftstrafe")
-	#		if Input.is_action_pressed("movement_right") and is_on_floor():
-	#			input_movement_vector.x += 1
-	#			if Input.is_action_pressed("movement_forward"):
-	#				input_movement_vector.y += 1
-	#				animPlayer.play("righttstrafe")
-	#			elif Input.is_action_pressed("movement_backwards"):
-	#				input_movement_vector.y -= 1
-	#				animPlayer.play_backwards("leftstrafe")
-	#			else:
-	#				animPlayer.play("rightstrafe")
 			input_movement_vector = input_movement_vector.normalized()
 			
 			dir += -cam_xform.basis.z * input_movement_vector.y
@@ -336,14 +292,9 @@ func process_inputs(delta):
 							grabbed_object.mode = RigidBody.MODE_STATIC
 							grabbed_object.collision_layer = 0 #original is 0
 							grabbed_object.collision_mask = 0 #original is 0
-							#print(grabbed_object.name)
-							#Just for Size Purposes with test object
-							#grabbed_object.scale = grabbed_object.scale * .5
-							#front facing in blender is also how the object is 
-							#oriented at 0,0,0 rotation
+
 							grabbed_object.rotation = Vector3(0,-90,0)
-							#grabbed_object.set_visible(false)
-							#Setup logic for holding object in hand here
+
 							
 				else:
 					grabbed_object.mode = RigidBody.MODE_RIGID
