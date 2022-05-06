@@ -23,7 +23,7 @@ margin_bottom = 262.0
 margin_right = 486.0
 margin_bottom = 255.0
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Login_list" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer"]
 margin_right = 486.0
 margin_bottom = 99.0
 text = "Login - Test Screen
@@ -63,7 +63,6 @@ text = "Server"
 margin_top = 64.0
 margin_right = 66.0
 margin_bottom = 88.0
-secret = true
 
 [node name="HSeparator2" type="HSeparator" parent="PanelContainer/MarginContainer/VBoxContainer"]
 margin_top = 203.0

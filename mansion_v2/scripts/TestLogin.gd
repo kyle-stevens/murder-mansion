@@ -4,6 +4,8 @@ onready var user = get_node("PanelContainer/MarginContainer/VBoxContainer/GridCo
 onready var server = get_node("PanelContainer/MarginContainer/VBoxContainer/GridContainer/server")
 onready var http_request = HTTPRequest.new()
 
+var host = "" #this will be changed later
+
 func _ready():
 	#HTTP request node
 	add_child(http_request)
@@ -21,7 +23,7 @@ func _on_Join_pressed():
 
 
 func _on_Host_pressed():
-	var fields = {"username" : user.text, "server" : server.text} #need to make this simply make a request and be served a server code instead of declaring it
+	var fields = {"username" : user.text, "empty" : "empty"}
 	var result = http_request.request("http://127.0.0.1:5000/host", PoolStringArray(['Content-Type: application/json']), false, 2, to_json(fields))
 	if result != OK:
 		push_error("An error occurred in the HTTP request")
