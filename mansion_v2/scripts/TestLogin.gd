@@ -30,13 +30,13 @@ func _http_request_completed(result, response_code, headers, body):
 
 func _on_Join_pressed():
 	var fields = {"username" : user.text, "server" : server.text}
-	var result = http_request.request("http://127.0.0.1:5000/join", PoolStringArray(['Content-Type: application/json']), false, 2, to_json(fields))
+	var result = http_request.request("http://10.0.1.12:5000/join", PoolStringArray(['Content-Type: application/json']), false, 2, to_json(fields))
 	if result != OK:
 		push_error("An error occurred in the HTTP request")
 
 func _on_Host_pressed():
 	var fields = {"username" : user.text, "empty" : "empty"}
-	var result = http_request.request("http://127.0.0.1:5000/host", PoolStringArray(['Content-Type: application/json']), false, 2, to_json(fields))
+	var result = http_request.request("http://10.0.1.12:5000/host", PoolStringArray(['Content-Type: application/json']), false, 2, to_json(fields))
 	if result != OK:
 		push_error("An error occurred in the HTTP request")
 
@@ -45,7 +45,7 @@ func _on_Host_pressed():
 func _process(delta):
 	var fields = {"server" : host, "request" : "update_list"}
 	if host != "":
-		var result = http_request.request("http://127.0.0.1:5000/update", PoolStringArray(['Content-Type: application/json']), false, 2, to_json(fields))
+		var result = http_request.request("http://10.0.1.12:5000/update", PoolStringArray(['Content-Type: application/json']), false, 2, to_json(fields))
 	$PanelContainer/MarginContainer/VBoxContainer/Login_list.text = "Login - Test Screen"
 	for elem in player_list_local:
 		$PanelContainer/MarginContainer/VBoxContainer/Login_list.text += "\n" + elem

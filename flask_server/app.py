@@ -2,6 +2,11 @@ from flask import Flask, request
 import json
 import random
 import string
+
+import logging
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
+
 app = Flask(__name__)
 
 servers = {"AAAAAA" : []}
@@ -13,7 +18,7 @@ servers = {"AAAAAA" : []}
 @app.route('/join', methods=['POST'])
 def join():
     new_user = json.loads(request.data)
-    print(new_user)
+    #print(new_user)
 
     if new_user["server"] in servers.keys():
         servers[new_user["server"]].append(new_user["username"])
@@ -25,7 +30,7 @@ def join():
 @app.route('/host', methods=['POST'])
 def host():
     new_user = json.loads(request.data)
-    print(new_user)
+    #print(new_user)
 
     if new_user["username"] in servers:
         return {"error" : "fatal flaw, user is already in a server room"}
@@ -37,11 +42,11 @@ def host():
 
 @app.route('/update', methods=['POST'])
 def update():
-    print(json.loads(request.data))
-    print(servers[json.loads(request.data)["server"]])
+    #print(json.loads(request.data))
+    #print(servers[json.loads(request.data)["server"]])
     print(request.remote_addr)
     return {"player_list" : servers[json.loads(request.data)["server"]]}
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host="0.0.0.0")

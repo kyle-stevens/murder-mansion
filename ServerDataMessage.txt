@@ -1,3 +1,4 @@
+#gets updated to an object containing the player ip address for unique id
 _player_name : "name"
 _player_status : "alive"
 _player_position : (X,Y,Z)
