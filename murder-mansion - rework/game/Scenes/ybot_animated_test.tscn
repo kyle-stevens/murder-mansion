@@ -1,16 +1,30 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Assets/new_models_player/yBot/ybot.dae" type="PackedScene" id=1]
 [ext_resource path="res://Assets/new_models_player/animations/animationWalk.tres" type="Animation" id=2]
 [ext_resource path="res://Assets/new_models_player/animations/animationIdle.tres" type="Animation" id=3]
 [ext_resource path="res://Scenes/ybot_animated_test.gd" type="Script" id=4]
 [ext_resource path="res://Assets/topHatRough/topHatRough.obj" type="ArrayMesh" id=5]
+[ext_resource path="res://Assets/new_models_player/animations/animationLanding.tres" type="Animation" id=6]
+[ext_resource path="res://Assets/new_models_player/animations/animationLeftStrafeRun.tres" type="Animation" id=7]
+[ext_resource path="res://Assets/new_models_player/animations/animationLeftStrafeWalk.tres" type="Animation" id=8]
+[ext_resource path="res://Assets/new_models_player/animations/animationRightStrafeRun.tres" type="Animation" id=9]
+[ext_resource path="res://Assets/new_models_player/animations/animationRightStrafeWalk.tres" type="Animation" id=10]
+[ext_resource path="res://Assets/new_models_player/animations/animationRun.tres" type="Animation" id=11]
+[ext_resource path="res://Assets/new_models_player/animations/animationFalling.tres" type="Animation" id=12]
+[ext_resource path="res://Assets/new_models_player/animations/animationJumpAction.tres" type="Animation" id=13]
+[ext_resource path="res://Assets/new_models_player/animations/animationJump.tres" type="Animation" id=14]
 
 [node name="ybot" instance=ExtResource( 1 )]
 script = ExtResource( 4 )
 
+[node name="Skeleton" parent="." index="0"]
+bones/4/bound_children = [ NodePath("BackAttachment") ]
+bones/5/bound_children = [ NodePath("HeadAttachment") ]
+bones/37/bound_children = [ NodePath("FlashlightAttachment") ]
+
 [node name="HeadAttachment" type="BoneAttachment" parent="Skeleton" index="2"]
-transform = Transform( 0.997765, -0.00226981, -0.0667824, 0.00212382, 0.999996, -0.00225606, 0.0667869, 0.00210918, 0.997764, -0.0187407, 1.54774, 0.0464547 )
+transform = Transform( 0.999914, -0.00440243, -0.0123815, 0.00322932, 0.99564, -0.0932201, 0.0127381, 0.0931721, 0.995568, 0.225995, 1.43679, 0.125598 )
 bone_name = "mixamorig_Head"
 
 [node name="MeshInstance" type="MeshInstance" parent="Skeleton/HeadAttachment" index="0"]
@@ -20,13 +34,13 @@ material/0 = null
 material/1 = null
 
 [node name="BackAttachment" type="BoneAttachment" parent="Skeleton" index="3"]
-transform = Transform( 0.998425, -0.0376381, -0.0416155, 0.0366497, 0.999034, -0.0242625, 0.0424882, 0.022699, 0.998838, -0.013548, 1.44539, 0.012724 )
+transform = Transform( 0.70232, 0.408292, 0.583133, -0.118698, 0.874866, -0.469596, -0.701895, 0.26059, 0.662899, 0.165527, 1.36124, 0.0778691 )
 bone_name = "mixamorig_Neck"
 
 [node name="MeshInstance" type="MeshInstance" parent="Skeleton/BackAttachment" index="0"]
 
 [node name="FlashlightAttachment" type="BoneAttachment" parent="Skeleton" index="4"]
-transform = Transform( -0.301523, -0.945504, 0.122906, 0.904222, -0.324455, -0.277691, 0.302435, 0.0274039, 0.952776, -0.255814, 0.688537, -0.200888 )
+transform = Transform( 0.154635, -0.00462085, 0.987961, 0.840494, -0.524986, -0.134009, 0.519285, 0.851098, -0.0772977, -0.321745, 0.843562, 0.240347 )
 bone_name = "mixamorig_RightHandMiddle1"
 
 [node name="CSGCylinder" type="CSGCylinder" parent="Skeleton/FlashlightAttachment" index="0"]
@@ -45,5 +59,14 @@ sides = 32
 transform = Transform( 1, 0, 0, 0, -1, 8.74243e-08, 0, -8.74243e-08, -1, 0, 5.00679e-06, 0.0967766 )
 
 [node name="AnimationPlayer" parent="." index="1"]
+anims/animationFalling = ExtResource( 12 )
 anims/animationIdle = ExtResource( 3 )
+anims/animationJump = ExtResource( 14 )
+anims/animationJumpAction = ExtResource( 13 )
+anims/animationLanding = ExtResource( 6 )
+anims/animationLeftStrafeRun = ExtResource( 7 )
+anims/animationLeftStrafeWalk = ExtResource( 8 )
+anims/animationRightStrafeRun = ExtResource( 9 )
+anims/animationRightStrafeWalk = ExtResource( 10 )
+anims/animationRun = ExtResource( 11 )
 anims/animationWalk = ExtResource( 2 )
