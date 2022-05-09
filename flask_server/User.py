@@ -5,7 +5,14 @@ class User:
     _username : str = ""
     _password : str = ""
     nickname : str = ""
-
+    _is_alive : str = ""
+    _position : str = ""
+    _rotation : str = ""
+    _animation : str = ""
+    _model : str = ""
+    _color : str = ""
+    _hat : str = ""
+    _body : str = ""
 
 
     def __init__(self):
@@ -36,4 +43,11 @@ class User:
         self._username = loaded_user.GetUsername()
         self._password = loaded_user.GetPassword()
         self.nickname = loaded_user.nickname
+        return
+
+    def GetPlayerStatus(self):
+        return {"player_name" : self.nickname, "player_status" : self._is_alive, "player_position" : self._position,
+                "player_rotation" : self._rotation, "player_animation" : self._animation, "player_model" : self._model,
+                "player_color" : self._color, "player_hat" : self._hat, "player_body" : self._body}
+    def InitializePlayerStatus(self):
         return
