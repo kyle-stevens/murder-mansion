@@ -22,8 +22,8 @@ app = Flask(__name__)
 #Initialize Server List
 servers = {}
 
-#Initialize Active Users Account - filepaths to stored user data
-active_users = []
+#Initialize Active Users Account
+active_users = {}
 
 #App route for logging into the server
 @app.route('/login', methods=['Post'])
@@ -55,40 +55,29 @@ def register():
         new_register_user.Save(USERACCOUNTS + new_register_user.GetUsername())
         return {"register_Status" : "ACCOUNT_CREATED"}
 
-
-'''
-@app.route('/join', methods=['POST'])
-def join():
-    new_user = json.loads(request.data)
-    #print(new_user)
-
-    if new_user["server"] in servers.keys():
-        servers[new_user["server"]].append(new_user["username"])
-        return {"server" : new_user["server"]}
+@app.route('/join_lobby', methods=['Post'])
+def join_lobby():
+    join_request = json.loads(request.data)
+    if join_request['username'] in active_users.key() and active_users[join_request['username']] in servers:
+        return {"server_join_status" : "FATAL_ERROR_USER_ALREADY_JOINED_SERVER"}
+    elif join_request['server'] in servers.keys() and join_request['username'] in active_users.key():
+        servers[join_request['server']].append(active_users[join_request['username']])
+        return {"server_join_status" : "SERVER_JOINED"}
     else:
-        return {"status" : "no such server exists"}
-    return {"status": "None"}
+        return {"server_join_status" : "SERVER_DNE"}
 
-@app.route('/host', methods=['POST'])
-def host():
-    new_user = json.loads(request.data)
-    #print(new_user)
+@app.route('/host_lobby', methods=['Post'])
+def host_lobby():
+    server_key = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+    while(server_key in servers.keys()):
+        server_key = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+    return {"server_status" : "ONLINE", "server_key" : server_key}
 
-    if new_user["username"] in servers:
-        return {"error" : "fatal flaw, user is already in a server room"}
-    else:
-        server = ''.join(random.choices(string.ascii_uppercase + string.digits, k = 6))
-        servers[server] = [new_user["username"]]
-        return {"server" : server}
-    return {"server": "None"}
-
-@app.route('/update', methods=['POST'])
-def update():
-    #print(json.loads(request.data))
-    #print(servers[json.loads(request.data)["server"]])
-    print(request.remote_addr)
-    return {"player_list" : servers[json.loads(request.data)["server"]]}
-'''
+@app.route('/ready_up', methods=['Post'])
+def ready_up():
+    ready_up_request = json.loads(request.data)
+    active_users[ready_up_request['username']].lobby_is_ready = not active_users[ready_up_request['username']].lobby_is_ready
+    return {"player_ready_status" : active_users[ready_up_request['username']].lobby_is_ready}
 
 if __name__ == '__main__':
     #app.run(host="0.0.0.0")

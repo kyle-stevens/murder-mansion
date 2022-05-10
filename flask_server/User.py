@@ -1,7 +1,7 @@
 import pickle
 
 class User:
-
+    lobby_is_ready : bool = False
     _username : str = ""
     _password : str = ""
     nickname : str = ""
@@ -46,8 +46,19 @@ class User:
         return
 
     def GetPlayerStatus(self):
-        return {"player_name" : self.nickname, "player_status" : self._is_alive, "player_position" : self._position,
+        return {"ready_check" : self.lobby_is_ready, "player_name" : self.nickname, "player_status" : self._is_alive, "player_position" : self._position,
                 "player_rotation" : self._rotation, "player_animation" : self._animation, "player_model" : self._model,
                 "player_color" : self._color, "player_hat" : self._hat, "player_body" : self._body}
-    def InitializePlayerStatus(self):
+
+    def InitializePlayerStatus(self, nickname, is_alive, position, rotation, animation, model, color, hat, body):
+        self.lobby_is_ready = False
+        self.nickname = nickname
+        self._is_alive = is_alive
+        self._position = position
+        self._rotation = rotation
+        self._animation = animation
+        self._model = model
+        self._color = color
+        self._hat = hat
+        self._body = body
         return
