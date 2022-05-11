@@ -9,8 +9,8 @@ from User import User
 
 #Import Logging Library to Suppress Flask Messages while Debugging
 import logging
-log = logging.getLogger('werkzeug')
-log.setLevel(logging.ERROR)
+#log = logging.getLogger('werkzeug')
+#log.setLevel(logging.ERROR)
 
 #CONSTANTS
 USERACCOUNTS = './userAccounts/'

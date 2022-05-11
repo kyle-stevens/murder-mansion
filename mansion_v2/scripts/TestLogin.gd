@@ -4,7 +4,7 @@ onready var error_message = get_node("PanelContainer/MarginContainer/VBoxContain
 onready var user = get_node("PanelContainer/MarginContainer/VBoxContainer/GridContainer/user")
 onready var password = get_node("PanelContainer/MarginContainer/VBoxContainer/GridContainer/password")
 onready var http_request = HTTPRequest.new()
-const SERVER = "https://desolate-garden-52565.herokuapp.com/" #"http://127.0.0.1:5000"
+const SERVER = "http://192.168.5.119:5000" #"http://127.0.0.1:5000"
 
 func _ready():
 	#HTTP request node
