@@ -28,6 +28,11 @@ active_users = {}
 #chat queue for server testing - [['username' , str]]
 message_queue = []
 
+#App route for testing networking from browser
+@app.route('/')
+def hello():
+    return 'Hello'
+
 #App route for logging into the server
 @app.route('/login', methods=['Post'])
 def login():
@@ -100,5 +105,5 @@ def chat_test():
 
 
 if __name__ == '__main__':
-    #app.run(host="0.0.0.0")
-    app.run()
+    #app.run()
+    app.run(host="0.0.0.0")
