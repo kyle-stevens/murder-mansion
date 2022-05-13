@@ -1,9 +1,7 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/NetworkSetup.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/map.gd" type="Script" id=2]
-[ext_resource path="res://Scenes/ybot.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Scenes/xbot.tscn" type="PackedScene" id=4]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 5, 1, 5 )
@@ -30,6 +28,9 @@ fog_transmit_curve = 0.0334929
 [node name="Map" type="Spatial"]
 script = ExtResource( 2 )
 
+[node name="Position3D" type="Position3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -26.2914, 3.24697, -25.4052 )
+
 [node name="NetworkSetup" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -44,9 +45,6 @@ margin_left = -175.0
 margin_top = -90.0
 margin_right = 175.0
 margin_bottom = 90.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="PlayerName" type="LineEdit" parent="NetworkSetup/VBoxContainer"]
 margin_right = 350.0
@@ -72,6 +70,12 @@ margin_right = 350.0
 margin_bottom = 180.0
 rect_min_size = Vector2( 0, 60 )
 text = "JOIN"
+
+[node name="CheckButton" type="CheckButton" parent="NetworkSetup/VBoxContainer"]
+margin_top = 184.0
+margin_right = 350.0
+margin_bottom = 224.0
+text = "Male(on)/Female(off)"
 
 [node name="Floor" type="StaticBody" parent="."]
 transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0, 0 )
@@ -114,14 +118,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="xbot" parent="." instance=ExtResource( 4 )]
-transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, -27.7873, 1.00001, -17.3739 )
-
-[node name="ybot" parent="." instance=ExtResource( 3 )]
-transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, -23.1313, 1.00001, -17.3739 )
-
 [connection signal="text_changed" from="NetworkSetup/VBoxContainer/PlayerName" to="." method="_on_PlayerName_text_changed"]
 [connection signal="text_changed" from="NetworkSetup/VBoxContainer/PlayerName" to="NetworkSetup" method="_on_PlayerName_text_changed"]
 [connection signal="text_changed" from="NetworkSetup/VBoxContainer/IpAddress" to="NetworkSetup" method="_on_IpAddress_text_changed"]
 [connection signal="pressed" from="NetworkSetup/VBoxContainer/Host" to="NetworkSetup" method="_on_Host_pressed"]
 [connection signal="pressed" from="NetworkSetup/VBoxContainer/Join" to="NetworkSetup" method="_on_Join_pressed"]
+[connection signal="toggled" from="NetworkSetup/VBoxContainer/CheckButton" to="." method="_on_CheckButton_toggled"]

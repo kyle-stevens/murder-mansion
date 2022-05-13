@@ -13,26 +13,31 @@
 [ext_resource path="res://Assets/new_models_player/animations/animationLeftStrafeWalk.tres" type="Animation" id=11]
 [ext_resource path="res://Assets/new_models_player/animations/animationRightStrafeRun.tres" type="Animation" id=12]
 [ext_resource path="res://Scenes/flashlight.tscn" type="PackedScene" id=13]
-[ext_resource path="res://Scenes/ybot_animated_test.gd" type="Script" id=14]
+[ext_resource path="res://Scripts/xbot.gd" type="Script" id=14]
 
 [node name="xbot" instance=ExtResource( 1 )]
 script = ExtResource( 14 )
 
+[node name="Skeleton" parent="." index="0"]
+bones/4/bound_children = [ NodePath("BackAttachment") ]
+bones/5/bound_children = [ NodePath("HeadAttachment") ]
+bones/45/bound_children = [ NodePath("FlashlightAttachment") ]
+
 [node name="HeadAttachment" type="BoneAttachment" parent="Skeleton" index="2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1e-07, 1.59646, -0.00997784 )
+transform = Transform( 0.956663, -0.287605, -0.0456141, 0.168454, 0.674354, -0.718937, 0.237529, 0.680096, 0.693577, -0.158707, 1.85108, 0.121655 )
 bone_name = "mixamorig_Head"
 
 [node name="MeshInstance" type="MeshInstance" parent="Skeleton/HeadAttachment" index="0"]
 transform = Transform( 0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0.125, 0 )
 
 [node name="BackAttachment" type="BoneAttachment" parent="Skeleton" index="3"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1e-07, 1.50028, -0.0268279 )
+transform = Transform( 0.920196, -0.250277, -0.300999, 0.0084715, 0.78147, -0.623886, 0.391366, 0.571547, 0.721226, -0.129564, 1.78644, 0.0545314 )
 bone_name = "mixamorig_Neck"
 
 [node name="MeshInstance" type="MeshInstance" parent="Skeleton/BackAttachment" index="0"]
 
 [node name="FlashlightAttachment" type="BoneAttachment" parent="Skeleton" index="4"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.808657, 1.43778, -0.0502666 )
+transform = Transform( 0.933106, 0.355048, -0.0570253, -0.220243, 0.438908, -0.871122, -0.284261, 0.825409, 0.487745, -0.758611, 1.80731, -0.351055 )
 bone_name = "mixamorig_RightHandMiddle1"
 
 [node name="flashlight" parent="Skeleton/FlashlightAttachment" index="0" instance=ExtResource( 13 )]
@@ -53,3 +58,5 @@ anims/animationRightStrafeRun = ExtResource( 12 )
 anims/animationRightStrafeWalk = ExtResource( 7 )
 anims/animationRun = ExtResource( 5 )
 anims/animationWalk = ExtResource( 2 )
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

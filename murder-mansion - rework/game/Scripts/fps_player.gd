@@ -122,7 +122,7 @@ func _physics_process(delta):
 	
 	if object_name != "none": #change to a check if the value has changed
 		var node_Test = get_tree().get_root().get_node(object_name)
-		print(node_Test)
+		#print(node_Test)
 		
 
 
@@ -344,7 +344,7 @@ puppet func update_state(p_position, p_velocity, p_rotation, p_flashlight_on, p_
 	movement_tween.interpolate_property(self, "global_transform", global_transform, Transform(global_transform.basis, p_position), 0.1)
 	movement_tween.start()
 	#######################################################################################################################
-	print(held_object_name) #object name only appears in other peers, will need to focus on how to implement for multiple concurrent objects
+	#print(held_object_name) #object name only appears in other peers, will need to focus on how to implement for multiple concurrent objects
 	#######################################################################################################################
 	object_name = held_object_name
 	object_transform = held_object_position

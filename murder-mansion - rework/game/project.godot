@@ -16,9 +16,10 @@ config/icon="res://Assets/icon.png"
 
 [autoload]
 
-Nakama="*res://addons/com.heroiclabs.nakama/Nakama.gd"
-Network="*res://Scripts/network.gd"
+PlayerVariables="*res://Scripts/player_variables.gd"
 Global="*res://Scripts/global.gd"
+Network="*res://Scripts/network.gd"
+NetworkSetup="*res://Scripts/NetworkSetup.gd"
 
 [display]
 

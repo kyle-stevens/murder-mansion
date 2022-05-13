@@ -1,7 +1,8 @@
 extends Spatial
 
 
-var player = preload("res://Scenes/fps_player.tscn")
+#var player = preload("res://Scenes/fps_player.tscn")
+var player = preload("res://Scenes/player_instance.tscn")
 var _player_name = "player_"
 
 
@@ -28,6 +29,9 @@ func _ready():
 	
 func _instance_player(id):
 	$InGameUi.visible = true
+	
+	#$Position3D.add_child(load("res://Scenes/player_instance.tscn").instance())
+	
 	print("Player Created with ID: "+str(id))
 	var player_instance = player.instance()
 	player_instance.set_network_master(id)
@@ -63,3 +67,10 @@ func _on_PlayerName_text_changed(new_text):
 	_player_name = new_text
 	print(_player_name)
 
+
+
+func _on_CheckButton_toggled(button_pressed):
+	if button_pressed:
+		PlayerVariables.player_model = "Male"
+	else:
+		PlayerVariables.player_model = "Female"
