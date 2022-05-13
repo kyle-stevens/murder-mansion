@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/NetworkSetup.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/map.gd" type="Script" id=2]
-[ext_resource path="res://Scenes/ybot_animated_test.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/ybot.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/xbot.tscn" type="PackedScene" id=4]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 5, 1, 5 )
@@ -113,8 +114,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="xbot" parent="." instance=ExtResource( 4 )]
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, -27.7873, 1.00001, -17.3739 )
+
 [node name="ybot" parent="." instance=ExtResource( 3 )]
-transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, -20.1572, 0.970435, -11.2128 )
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, -23.1313, 1.00001, -17.3739 )
 
 [connection signal="text_changed" from="NetworkSetup/VBoxContainer/PlayerName" to="." method="_on_PlayerName_text_changed"]
 [connection signal="text_changed" from="NetworkSetup/VBoxContainer/PlayerName" to="NetworkSetup" method="_on_PlayerName_text_changed"]
