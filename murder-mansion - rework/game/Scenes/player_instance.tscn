@@ -43,4 +43,8 @@ autostart = true
 
 [node name="movement_tween" type="Tween" parent="."]
 
+[node name="SpotLight" type="SpotLight" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3.47385, 0 )
+light_energy = 5.0
+
 [connection signal="timeout" from="network_tick_rate" to="." method="_on_network_tick_rate_timeout"]

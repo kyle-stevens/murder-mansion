@@ -323,7 +323,6 @@ func process_movement(delta):
 	
 	#Trying to fix weird jump glitch when walking into other player
 	
-	print(get_floor_angle())
 	
 	if !movement_tween.is_active():
 		vel = move_and_slide(
@@ -362,9 +361,7 @@ puppet func update_state(p_position, p_velocity, p_rotation, p_flashlight_on, p_
 #			player_model.add_child(instance)
 	
 func _on_network_tick_rate_timeout():
-	print("timeout")
 	if is_network_master():
-		print("timeout")
 		rpc_unreliable("update_state", global_transform.origin, vel, Vector2(camera.rotation.x, rotation.y), flashlight.visible, animation_player.current_animation, PlayerVariables.player_name, PlayerVariables.player_model, "none")
 	else:
 		network_tick_rate.stop()
