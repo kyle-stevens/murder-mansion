@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/demonCrown.obj-676821d1480250f4d5e1e0fbbd7cb8b0.mesh"
+
+[deps]
+
+files=[ "res://.import/demonCrown.obj-676821d1480250f4d5e1e0fbbd7cb8b0.mesh" ]
+
+source_file="res://Assets/hats/demonCrownHat/demonCrown.obj"
+dest_files=[ "res://.import/demonCrown.obj-676821d1480250f4d5e1e0fbbd7cb8b0.mesh", "res://.import/demonCrown.obj-676821d1480250f4d5e1e0fbbd7cb8b0.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286

@@ -39,7 +39,7 @@ var flashlight : SpotLight
 
 ###CAMERA######################################################################
 onready var camera = get_node("rotation_helper/player_camera")
-export var x_range = 70
+export var x_range = 25
 
 ###ROTATION HELPER#############################################################
 onready var rotation_helper = get_node("rotation_helper")
@@ -53,6 +53,7 @@ onready var player_model = get_node("player_model")
 var init
 
 func _ready():
+	
 #	#Check if Instance is Network Master for Camera Focus
 #	camera.current = is_network_master()
 #
@@ -319,9 +320,11 @@ func process_movement(delta):
 		rotation.y = puppet_rot.y
 		camera.rotation.x = puppet_rot.x
 		flashlight.visible = puppet_flash
-
-
-
+	
+	#Trying to fix weird jump glitch when walking into other player
+	
+	print(get_floor_angle())
+	
 	if !movement_tween.is_active():
 		vel = move_and_slide(
 				vel,
@@ -365,4 +368,3 @@ func _on_network_tick_rate_timeout():
 		rpc_unreliable("update_state", global_transform.origin, vel, Vector2(camera.rotation.x, rotation.y), flashlight.visible, animation_player.current_animation, PlayerVariables.player_name, PlayerVariables.player_model, "none")
 	else:
 		network_tick_rate.stop()
-
