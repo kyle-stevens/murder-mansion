@@ -36,7 +36,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.36892, 1 )
 transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0 )
 shape = SubResource( 3 )
 
-[node name="movement_tween" type="Tween" parent="."]
-
 [node name="network_tick_rate" type="Timer" parent="."]
 wait_time = 0.03
+autostart = true
+
+[node name="movement_tween" type="Tween" parent="."]
+
+[connection signal="timeout" from="network_tick_rate" to="." method="_on_network_tick_rate_timeout"]
