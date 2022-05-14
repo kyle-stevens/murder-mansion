@@ -19,7 +19,7 @@ var puppet_vel : Vector3 = Vector3()
 var puppet_rot : Vector2 = Vector2()
 var puppet_flash : bool = true
 var puppet_anim : String = "animationIdle"
-var puppet_model : String = "Male"
+var puppet_model : String = ""
 export(NodePath) onready var movement_tween = get_node("movement_tween") as Tween
 export(NodePath) onready var network_tick_rate = get_node("network_tick_rate") as Timer
 
@@ -50,8 +50,52 @@ var reticle : String #Not yet implemented
 
 ###PLAYER MODEL################################################################
 onready var player_model = get_node("player_model")
+var init
 
 func _ready():
+#	#Check if Instance is Network Master for Camera Focus
+#	camera.current = is_network_master()
+#
+#	#Set Model for Player
+#	if is_network_master():
+#		if PlayerVariables.player_model == "Male":
+#			var instance = load("res://Scenes/ybot.tscn").instance()
+#			instance.set_name("player_model")
+#			player_model.add_child(instance)
+#		elif PlayerVariables.player_model == "Female":
+#			var instance = load("res://Scenes/xbot.tscn").instance()
+#			instance.set_name("player_model")
+#			player_model.add_child(instance)
+#	else:
+#		if puppet_model == "Male":
+#			var instance = load("res://Scenes/ybot.tscn").instance()
+#			instance.set_name("player_model")
+#			player_model.add_child(instance)
+#		elif puppet_model == "Female":
+#			var instance = load("res://Scenes/xbot.tscn").instance()
+#			instance.set_name("player_model")
+#			player_model.add_child(instance)
+#
+#	#Getting Flashlight Node from player_model child
+#	flashlight = get_node("player_model/player_model/Skeleton/"+
+#		"FlashlightAttachment/flashlight/SpotLight")
+#
+#	#Getting Animation Node from player_model child
+#	animation_player = get_node("player_model/player_model/AnimationPlayer")
+#
+#	#Set Initial Animation
+#	animation_player.play("animationIdle")
+#
+#	#Initial Mouse Mode
+#	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+#
+#	#Set Sprint Energy
+#	sprint_energy = 100
+#	sprint_recharge = false
+	pass
+	init = false
+
+func initFunc():
 	#Check if Instance is Network Master for Camera Focus
 	camera.current = is_network_master()
 
@@ -91,8 +135,11 @@ func _ready():
 	#Set Sprint Energy
 	sprint_energy = 100
 	sprint_recharge = false
+	init = true
 
 func _physics_process(delta):
+	if not init:
+		initFunc()
 	process_inputs(delta)
 	process_movement(delta)
 
@@ -298,18 +345,18 @@ puppet func update_state(p_position, p_velocity, p_rotation, p_flashlight_on, p_
 	movement_tween.interpolate_property(self, "global_transform", global_transform, Transform(global_transform.basis, p_position), 0.1)
 	movement_tween.start()
 	
-	#Check for host model
-	if puppet_model != PlayerVariables.player_model:
-		player_model.get_node("player_model").queue_free()
-		####HERE IS THE RESET!!
-		if puppet_model == "Male":
-			var instance = load("res://Scenes/ybot.tscn").instance()
-			instance.set_name("player_model")
-			player_model.add_child(instance)
-		elif puppet_model == "Female":
-			var instance = load("res://Scenes/xbot.tscn").instance()
-			instance.set_name("player_model")
-			player_model.add_child(instance)
+#	#Check for host model
+#	if puppet_model != PlayerVariables.player_model:
+#		player_model.get_node("player_model").queue_free()
+#		####HERE IS THE RESET!!
+#		if puppet_model == "Male":
+#			var instance = load("res://Scenes/ybot.tscn").instance()
+#			instance.set_name("player_model")
+#			player_model.add_child(instance)
+#		elif puppet_model == "Female":
+#			var instance = load("res://Scenes/xbot.tscn").instance()
+#			instance.set_name("player_model")
+#			player_model.add_child(instance)
 	
 func _on_network_tick_rate_timeout():
 	print("timeout")
