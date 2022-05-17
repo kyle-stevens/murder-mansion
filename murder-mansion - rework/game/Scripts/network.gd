@@ -15,7 +15,7 @@ func _ready():
 	get_tree().connect("network_peer_connected",self,"_player_connected")
 
 func create_server():
-	print("CREATING SERVER...")
+	print("CREATING SERVER..." + ip_address)
 	
 	server = NetworkedMultiplayerENet.new()
 	server.create_server(DEFAULT_PORT,MAX_CLIENTS)

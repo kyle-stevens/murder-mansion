@@ -20,6 +20,9 @@ var puppet_rot : Vector2 = Vector2()
 var puppet_flash : bool = true
 var puppet_anim : String = "animationIdle"
 var puppet_model : String = ""
+var puppet_color : String = ""
+var puppet_hat : String = ""
+var puppet_nametag : String
 export(NodePath) onready var movement_tween = get_node("movement_tween") as Tween
 export(NodePath) onready var network_tick_rate = get_node("network_tick_rate") as Timer
 
@@ -54,6 +57,11 @@ var init
 
 func _ready():
 	
+	
+	
+	if is_network_master():
+		PlayerVariables.player_active_camera = camera
+		
 #	#Check if Instance is Network Master for Camera Focus
 #	camera.current = is_network_master()
 #
@@ -93,8 +101,35 @@ func _ready():
 #	#Set Sprint Energy
 #	sprint_energy = 100
 #	sprint_recharge = false
+	
 	pass
 	init = false
+
+func updateAppearance():
+	if is_network_master():
+		var player_model_surface_colors
+		if PlayerVariables.player_model == "Female":
+			player_model_surface_colors = player_model.get_node("./player_model/Skeleton/Beta_Surface")
+		else:
+			player_model_surface_colors = player_model.get_node("./player_model/Skeleton/Alpha_Surface")
+		player_model_surface_colors.set_surface_material(0,load(PlayerVariables.player_color))
+		
+		###Hat stuff will go here
+		if PlayerVariables.player_hat != "":
+			player_model.get_node("player_model/Skeleton/HeadAttachment/MeshInstance").mesh = load(PlayerVariables.player_hat)
+		
+		
+	else:
+		var player_model_surface_colors
+		if puppet_model == "Female":
+			player_model_surface_colors = player_model.get_node("./player_model/Skeleton/Beta_Surface")
+		else:
+			player_model_surface_colors = player_model.get_node("./player_model/Skeleton/Alpha_Surface")
+		
+		player_model_surface_colors.set_surface_material(0,load(puppet_color))
+		
+		if puppet_hat != "":
+			player_model.get_node("player_model/Skeleton/HeadAttachment/MeshInstance").mesh = load(puppet_hat)
 
 func initFunc():
 	#Check if Instance is Network Master for Camera Focus
@@ -110,6 +145,10 @@ func initFunc():
 			var instance = load("res://Scenes/xbot.tscn").instance()
 			instance.set_name("player_model")
 			player_model.add_child(instance)
+			
+		$Sprite3D/Viewport/Label.text = "   " + PlayerVariables.player_name + "   "
+		$Sprite3D.texture = $Sprite3D/Viewport.get_texture()
+		
 	else:
 		if puppet_model == "Male":
 			var instance = load("res://Scenes/ybot.tscn").instance()
@@ -119,10 +158,13 @@ func initFunc():
 			var instance = load("res://Scenes/xbot.tscn").instance()
 			instance.set_name("player_model")
 			player_model.add_child(instance)
-
+		
+		$Sprite3D/Viewport/Label.text = "   " + puppet_name + "   "
+		$Sprite3D.texture = $Sprite3D/Viewport.get_texture()
 	#Getting Flashlight Node from player_model child
-	flashlight = get_node("player_model/player_model/Skeleton/"+
-		"FlashlightAttachment/flashlight/SpotLight")
+	#flashlight = get_node("player_model/player_model/Skeleton/"+
+	#	"FlashlightAttachment/flashlight/SpotLight")
+	flashlight = get_node("rotation_helper/SpotLight") #change for new light model to better improve visibility
 
 	#Getting Animation Node from player_model child
 	animation_player = get_node("player_model/player_model/AnimationPlayer")
@@ -141,6 +183,9 @@ func initFunc():
 func _physics_process(delta):
 	if not init:
 		initFunc()
+	else:
+		pass
+		updateAppearance()
 	process_inputs(delta)
 	process_movement(delta)
 
@@ -336,7 +381,7 @@ func process_movement(delta):
 remote func _set_position(pos):
 	global_transform.origin = pos
 
-puppet func update_state(p_position, p_velocity, p_rotation, p_flashlight_on, p_animation, p_player_name, p_player_model, held_object_position):
+puppet func update_state(p_position, p_velocity, p_rotation, p_flashlight_on, p_animation, p_player_name, p_player_model, p_player_color, p_player_hat):
 	puppet_pos = p_position
 	puppet_rot = p_rotation
 	puppet_vel = p_velocity
@@ -344,6 +389,8 @@ puppet func update_state(p_position, p_velocity, p_rotation, p_flashlight_on, p_
 	puppet_anim = p_animation
 	puppet_name = p_player_name #player username
 	puppet_model = p_player_model
+	puppet_color = p_player_color
+	puppet_hat = p_player_hat
 	movement_tween.interpolate_property(self, "global_transform", global_transform, Transform(global_transform.basis, p_position), 0.1)
 	movement_tween.start()
 	
@@ -362,6 +409,6 @@ puppet func update_state(p_position, p_velocity, p_rotation, p_flashlight_on, p_
 	
 func _on_network_tick_rate_timeout():
 	if is_network_master():
-		rpc_unreliable("update_state", global_transform.origin, vel, Vector2(camera.rotation.x, rotation.y), flashlight.visible, animation_player.current_animation, PlayerVariables.player_name, PlayerVariables.player_model, "none")
+		rpc_unreliable("update_state", global_transform.origin, vel, Vector2(camera.rotation.x, rotation.y), flashlight.visible, animation_player.current_animation, PlayerVariables.player_name, PlayerVariables.player_model, PlayerVariables.player_color, PlayerVariables.player_hat)
 	else:
 		network_tick_rate.stop()

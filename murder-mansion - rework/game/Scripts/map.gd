@@ -12,7 +12,7 @@ var _player_name = "player_"
 
 func _ready():
 
-	$InGameUi.visible = false
+	#$InGameUi.visible = false
 	get_tree().connect("network_peer_connected", self, "_player_connected")
 	get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
 	
@@ -21,14 +21,14 @@ func _ready():
 	
 	if get_tree().network_peer != null:
 		Global.emit_signal("toggle_network_setup", false)
-		$InGameUi.visible = true
+		#$InGameUi.visible = true
 		
 	
 
 
 	
 func _instance_player(id):
-	$InGameUi.visible = true
+	#$InGameUi.visible = true
 	
 	#$Position3D.add_child(load("res://Scenes/player_instance.tscn").instance())
 	
@@ -43,9 +43,9 @@ func _instance_player(id):
 	new_label.rect_size = Vector2(400,15)
 	new_label.fit_content_height = true
 	new_label.text = "\t" + player_instance.player_name #str(id)
-	$InGameUi/PlayerList.add_child(new_label)
+	#$InGameUi/PlayerList.add_child(new_label)
 	#$InGameUi/PlayerList/Title.text = player_instance.player_name
-	$InGameUi.update()
+	#$InGameUi.update()
 	print("Player Name is: "  + player_instance.player_name)
 
 func _player_connected(id):
@@ -65,6 +65,7 @@ func _player_disconnected(id):
 
 func _on_PlayerName_text_changed(new_text):
 	_player_name = new_text
+	PlayerVariables.player_name = new_text
 	print(_player_name)
 
 

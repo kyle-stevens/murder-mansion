@@ -1,28 +1,23 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/NetworkSetup.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/map.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/wallLampDemo.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/AppearanceMenuConsole.tscn" type="PackedScene" id=4]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 5, 1, 5 )
 
 [sub_resource type="ProceduralSky" id=2]
-sky_top_color = Color( 0.0235294, 0.0235294, 0.0235294, 1 )
+sky_top_color = Color( 0.854902, 0.854902, 0.854902, 1 )
 sky_horizon_color = Color( 0.384314, 0.94902, 0.937255, 1 )
 sky_curve = 0.302722
-sky_energy = 0.0
-ground_bottom_color = Color( 0, 0, 0, 1 )
-ground_horizon_color = Color( 0, 0, 0, 1 )
-ground_energy = 0.0
 sun_energy = 0.0
 
 [sub_resource type="Environment" id=3]
 background_mode = 2
 background_sky = SubResource( 2 )
 background_energy = 0.0
-ambient_light_energy = 0.0
-ambient_light_sky_contribution = 0.0
 fog_color = Color( 0, 0, 0, 1 )
 fog_sun_color = Color( 0, 0, 0, 1 )
 fog_depth_enabled = false
@@ -91,14 +86,75 @@ shape = SubResource( 1 )
 width = 10.0
 depth = 10.0
 
-[node name="Roof" type="StaticBody" parent="."]
-transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 10, 0, 49, 0 )
-visible = false
+[node name="Roof Slats" type="CanvasLayer" parent="."]
 
-[node name="CollisionShape" type="CollisionShape" parent="Roof"]
+[node name="Roof" type="StaticBody" parent="Roof Slats"]
+transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 1, 0, 49, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Roof Slats/Roof"]
 shape = SubResource( 1 )
 
-[node name="CSGBox" type="CSGBox" parent="Roof"]
+[node name="CSGBox" type="CSGBox" parent="Roof Slats/Roof"]
+width = 10.0
+depth = 10.0
+
+[node name="Roof2" type="StaticBody" parent="Roof Slats"]
+transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 1, 0, 49, -15 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Roof Slats/Roof2"]
+shape = SubResource( 1 )
+
+[node name="CSGBox" type="CSGBox" parent="Roof Slats/Roof2"]
+width = 10.0
+depth = 10.0
+
+[node name="Roof3" type="StaticBody" parent="Roof Slats"]
+transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 1, 0, 49, -28 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Roof Slats/Roof3"]
+shape = SubResource( 1 )
+
+[node name="CSGBox" type="CSGBox" parent="Roof Slats/Roof3"]
+width = 10.0
+depth = 10.0
+
+[node name="Roof4" type="StaticBody" parent="Roof Slats"]
+transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 1, 0, 49, -43 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Roof Slats/Roof4"]
+shape = SubResource( 1 )
+
+[node name="CSGBox" type="CSGBox" parent="Roof Slats/Roof4"]
+width = 10.0
+depth = 10.0
+
+[node name="Roof6" type="StaticBody" parent="Roof Slats"]
+transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 1, 0, 49, 43 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Roof Slats/Roof6"]
+shape = SubResource( 1 )
+
+[node name="CSGBox" type="CSGBox" parent="Roof Slats/Roof6"]
+width = 10.0
+depth = 10.0
+
+[node name="Roof7" type="StaticBody" parent="Roof Slats"]
+transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 1, 0, 49, 30 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Roof Slats/Roof7"]
+shape = SubResource( 1 )
+
+[node name="CSGBox" type="CSGBox" parent="Roof Slats/Roof7"]
+width = 10.0
+depth = 10.0
+
+[node name="Roof8" type="StaticBody" parent="Roof Slats"]
+transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 1, 0, 49, 15 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Roof Slats/Roof8"]
+shape = SubResource( 1 )
+
+[node name="CSGBox" type="CSGBox" parent="Roof Slats/Roof8"]
 width = 10.0
 depth = 10.0
 
@@ -145,32 +201,62 @@ depth = 10.0
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 3 )
 
-[node name="InGameUi" type="Control" parent="."]
-margin_right = 1280.0
-margin_bottom = 720.0
-
-[node name="PlayerList" type="VBoxContainer" parent="InGameUi"]
-margin_left = 50.0
-margin_top = 50.0
-margin_right = 450.0
-margin_bottom = 75.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Title" type="RichTextLabel" parent="InGameUi/PlayerList"]
-margin_right = 400.0
-margin_bottom = 15.0
-text = "Players:"
-fit_content_height = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="lamps" type="CanvasLayer" parent="."]
 
 [node name="wallLampDemo" parent="lamps" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 7, -6 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 49, 12, -39 )
+
+[node name="wallLampDemo2" parent="lamps" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 49, 12, -10 )
+
+[node name="wallLampDemo3" parent="lamps" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 49, 12, 18 )
+
+[node name="wallLampDemo4" parent="lamps" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 49, 12, 40 )
+
+[node name="wallLampDemo5" parent="lamps" instance=ExtResource( 3 )]
+transform = Transform( -1, 0, -8.9407e-08, 0, 1, 0, 8.9407e-08, 0, -1, -49, 12, 40 )
+
+[node name="wallLampDemo6" parent="lamps" instance=ExtResource( 3 )]
+transform = Transform( -1, 0, -8.9407e-08, 0, 1, 0, 8.9407e-08, 0, -1, -49, 12, 11 )
+
+[node name="wallLampDemo7" parent="lamps" instance=ExtResource( 3 )]
+transform = Transform( -1, 0, -8.9407e-08, 0, 1, 0, 8.9407e-08, 0, -1, -49, 12, -17 )
+
+[node name="wallLampDemo8" parent="lamps" instance=ExtResource( 3 )]
+transform = Transform( -1, 0, -8.9407e-08, 0, 1, 0, 8.9407e-08, 0, -1, -49, 12, -39 )
+
+[node name="wallLampDemo9" parent="lamps" instance=ExtResource( 3 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -39.5, 12, -48.5 )
+
+[node name="wallLampDemo10" parent="lamps" instance=ExtResource( 3 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -10.5, 12, -48.5 )
+
+[node name="wallLampDemo11" parent="lamps" instance=ExtResource( 3 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 17.5, 12, -48.5 )
+
+[node name="wallLampDemo12" parent="lamps" instance=ExtResource( 3 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 39.5, 12, -48.5 )
+
+[node name="wallLampDemo13" parent="lamps" instance=ExtResource( 3 )]
+transform = Transform( 1.33118e-07, 0, -1, 0, 1, 0, 1, 0, 1.33118e-07, 39.5, 12, 49.5 )
+
+[node name="wallLampDemo14" parent="lamps" instance=ExtResource( 3 )]
+transform = Transform( 1.33118e-07, 0, -1, 0, 1, 0, 1, 0, 1.33118e-07, 10.5, 12, 49.5 )
+
+[node name="wallLampDemo15" parent="lamps" instance=ExtResource( 3 )]
+transform = Transform( 1.33118e-07, 0, -1, 0, 1, 0, 1, 0, 1.33118e-07, -17.5, 12, 49.5 )
+
+[node name="wallLampDemo16" parent="lamps" instance=ExtResource( 3 )]
+transform = Transform( 1.33118e-07, 0, -1, 0, 1, 0, 1, 0, 1.33118e-07, -39.5, 12, 49.5 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 65, 0 )
+light_color = Color( 0.721569, 0.74902, 0.847059, 1 )
+
+[node name="AppearanceMenuConsole" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 2, 9 )
 
 [connection signal="text_changed" from="NetworkSetup/VBoxContainer/PlayerName" to="." method="_on_PlayerName_text_changed"]
 [connection signal="text_changed" from="NetworkSetup/VBoxContainer/PlayerName" to="NetworkSetup" method="_on_PlayerName_text_changed"]
