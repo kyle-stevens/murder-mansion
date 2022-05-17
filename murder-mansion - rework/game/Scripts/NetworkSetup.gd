@@ -22,11 +22,6 @@ func _on_Join_pressed():
 func _toggle_network_setup(visible_toggle):
 	visible = visible_toggle
 	
-
-
-
-
-
 func _on_PlayerName_text_changed(new_text):
 	_player_name = new_text
 	print(_player_name)

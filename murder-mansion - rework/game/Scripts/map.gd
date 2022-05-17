@@ -1,14 +1,7 @@
 extends Spatial
 
-
-#var player = preload("res://Scenes/fps_player.tscn")
 var player = preload("res://Scenes/player_instance.tscn")
 var _player_name = "player_"
-
-
-
-
-
 
 func _ready():
 
@@ -22,10 +15,6 @@ func _ready():
 	if get_tree().network_peer != null:
 		Global.emit_signal("toggle_network_setup", false)
 		#$InGameUi.visible = true
-		
-	
-
-
 	
 func _instance_player(id):
 	#$InGameUi.visible = true
@@ -59,16 +48,10 @@ func _player_disconnected(id):
 	if has_node(str(id)):
 		get_node(str(id)).queue_free()
 
-
-
-
-
 func _on_PlayerName_text_changed(new_text):
 	_player_name = new_text
 	PlayerVariables.player_name = new_text
 	print(_player_name)
-
-
 
 func _on_CheckButton_toggled(button_pressed):
 	if button_pressed:

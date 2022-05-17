@@ -13,7 +13,7 @@ func _ready():
 
 
 func _process(delta):
-	if at_console and Input.is_action_just_pressed("appearance_menu"):
+	if at_console and Input.is_action_just_pressed("interact"):
 		add_child(load("res://Scenes/AppearanceMenu.tscn").instance())
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
@@ -22,6 +22,7 @@ func _on_AppearanceMenuConsole_body_entered(body):
 	if body is KinematicBody and body.is_network_master():
 		at_console = true
 		print(at_console)
+		body.get_node("UI/popupMesg").text = "press 'E' to interact"
 
 
 
@@ -30,3 +31,4 @@ func _on_AppearanceMenuConsole_body_exited(body):
 	if body is KinematicBody and body.is_network_master():
 		at_console = false
 		print(at_console)
+		body.get_node("UI/popupMesg").text = ""

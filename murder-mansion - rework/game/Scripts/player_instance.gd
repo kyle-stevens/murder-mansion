@@ -9,7 +9,7 @@ const SPRINT_ACCEL = 18
 const MAX_SLOPE_ANGLE = 40
 const MAX_SPEED = 8
 const MAX_SPRINT_SPEED = 15
-const JUMP_SPEED = 9
+const JUMP_SPEED = 15 #9
 const GRAVITY = -24.8
 
 ###PUPPET VARIABLES############################################################
@@ -61,6 +61,10 @@ func _ready():
 	
 	if is_network_master():
 		PlayerVariables.player_active_camera = camera
+		var center = Vector2(1280.0/2.0, 720.0/2.0)
+		$UI/popupMesg.set_position(Vector2(center.x - ($UI/popupMesg.rect_size.x/2), 150.0), false)
+		$UI/popupMesg.text = ""
+		
 		
 #	#Check if Instance is Network Master for Camera Focus
 #	camera.current = is_network_master()
@@ -220,7 +224,7 @@ func process_inputs(delta):
 					sprint_recharge = true
 			if sprint_energy > 100:
 				sprint_energy = 100
-
+			$UI/staminaBar.value = sprint_energy
 			#Purely for demo instancing of player
 			#print(vel)
 

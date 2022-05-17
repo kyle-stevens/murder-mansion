@@ -25,7 +25,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.075, 0 )
 shape = SubResource( 4 )
 
 [node name="player_model" type="Spatial" parent="."]
-transform = Transform( 1.65, 0, 0, 0, 1.65, 0, 0, 0, 1.65, 0, -1.385, 0 )
+transform = Transform( 1.65, 0, 0, 0, 1.65, 0, 0, 0, 1.65, 0, -1.45, 0 )
 
 [node name="rotation_helper" type="Spatial" parent="."]
 
@@ -67,5 +67,27 @@ text = "A"
 align = 1
 valign = 1
 uppercase = true
+
+[node name="UI" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="popupMesg" type="Label" parent="UI"]
+anchor_left = 2.0
+anchor_top = 2.0
+anchor_right = 2.0
+anchor_bottom = 2.0
+text = "Popup Message"
+align = 1
+valign = 1
+
+[node name="staminaBar" type="ProgressBar" parent="UI"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 300.0
+margin_bottom = 14.0
+value = 100.0
 
 [connection signal="timeout" from="network_tick_rate" to="." method="_on_network_tick_rate_timeout"]
