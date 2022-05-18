@@ -4,7 +4,12 @@ var player = preload("res://Scenes/player_instance.tscn")
 var _player_name = "player_"
 
 func _ready():
-
+	#not working
+	var upnp = UPNP.new()
+	upnp.discover(2000,2,"InternetGatewayDevice")
+	print(upnp)
+	print(upnp.query_external_address())
+	
 	get_tree().connect("network_peer_connected", self, "_player_connected")
 	get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
 	
