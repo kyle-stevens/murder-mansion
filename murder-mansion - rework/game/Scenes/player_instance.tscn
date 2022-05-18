@@ -54,7 +54,6 @@ texture = SubResource( 5 )
 
 [node name="Viewport" type="Viewport" parent="Sprite3D"]
 size = Vector2( 40, 14 )
-size_override_stretch = true
 render_target_v_flip = true
 script = ExtResource( 2 )
 
@@ -77,6 +76,7 @@ anchor_left = 2.0
 anchor_top = 2.0
 anchor_right = 2.0
 anchor_bottom = 2.0
+rect_scale = Vector2( 2, 2 )
 text = "Popup Message"
 align = 1
 valign = 1

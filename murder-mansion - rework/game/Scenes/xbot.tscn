@@ -16,6 +16,11 @@
 
 [node name="xbot" instance=ExtResource( 1 )]
 
+[node name="Skeleton" parent="." index="0"]
+bones/4/bound_children = [ NodePath("BackAttachment") ]
+bones/5/bound_children = [ NodePath("HeadAttachment") ]
+bones/45/bound_children = [ NodePath("FlashlightAttachment") ]
+
 [node name="HeadAttachment" type="BoneAttachment" parent="Skeleton" index="2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1e-07, 1.59646, -0.00997784 )
 bone_name = "mixamorig_Head"

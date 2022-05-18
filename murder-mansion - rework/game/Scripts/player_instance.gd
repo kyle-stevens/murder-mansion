@@ -1,7 +1,5 @@
 extends KinematicBody
 
-var player_name = ""
-
 ###CONSTANTS###################################################################
 const ACCEL = 4.5
 const DEACCEL = 16
@@ -56,56 +54,13 @@ onready var player_model = get_node("player_model")
 var init
 
 func _ready():
-	
-	
-	
 	if is_network_master():
 		PlayerVariables.player_active_camera = camera
 		var center = Vector2(1280.0/2.0, 720.0/2.0)
-		$UI/popupMesg.set_position(Vector2(center.x - ($UI/popupMesg.rect_size.x/2), 150.0), false)
+		$UI/popupMesg.set_position(Vector2(center.x - ($UI/popupMesg.rect_size.x), 150.0), false) #Rect_size.x instead of Rectsize.x/2 bc of scaling of label
 		$UI/popupMesg.text = ""
-		
-		
-#	#Check if Instance is Network Master for Camera Focus
-#	camera.current = is_network_master()
-#
-#	#Set Model for Player
-#	if is_network_master():
-#		if PlayerVariables.player_model == "Male":
-#			var instance = load("res://Scenes/ybot.tscn").instance()
-#			instance.set_name("player_model")
-#			player_model.add_child(instance)
-#		elif PlayerVariables.player_model == "Female":
-#			var instance = load("res://Scenes/xbot.tscn").instance()
-#			instance.set_name("player_model")
-#			player_model.add_child(instance)
-#	else:
-#		if puppet_model == "Male":
-#			var instance = load("res://Scenes/ybot.tscn").instance()
-#			instance.set_name("player_model")
-#			player_model.add_child(instance)
-#		elif puppet_model == "Female":
-#			var instance = load("res://Scenes/xbot.tscn").instance()
-#			instance.set_name("player_model")
-#			player_model.add_child(instance)
-#
-#	#Getting Flashlight Node from player_model child
-#	flashlight = get_node("player_model/player_model/Skeleton/"+
-#		"FlashlightAttachment/flashlight/SpotLight")
-#
-#	#Getting Animation Node from player_model child
-#	animation_player = get_node("player_model/player_model/AnimationPlayer")
-#
-#	#Set Initial Animation
-#	animation_player.play("animationIdle")
-#
-#	#Initial Mouse Mode
-#	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-#
-#	#Set Sprint Energy
-#	sprint_energy = 100
-#	sprint_recharge = false
-	
+	else:
+		$UI.visible = false
 	pass
 	init = false
 
@@ -150,7 +105,10 @@ func initFunc():
 			instance.set_name("player_model")
 			player_model.add_child(instance)
 			
+		
 		$Sprite3D/Viewport/Label.text = "   " + PlayerVariables.player_name + "   "
+		$Sprite3D/Viewport/Label.rect_size = $Sprite3D/Viewport/Label.get_font("font").get_string_size($Sprite3D/Viewport/Label.text)
+		$Sprite3D/Viewport.size = $Sprite3D/Viewport/Label.rect_size
 		$Sprite3D.texture = $Sprite3D/Viewport.get_texture()
 		
 	else:
@@ -165,9 +123,7 @@ func initFunc():
 		
 		$Sprite3D/Viewport/Label.text = "   " + puppet_name + "   "
 		$Sprite3D.texture = $Sprite3D/Viewport.get_texture()
-	#Getting Flashlight Node from player_model child
-	#flashlight = get_node("player_model/player_model/Skeleton/"+
-	#	"FlashlightAttachment/flashlight/SpotLight")
+	#Get Flashlight Node from player model
 	flashlight = get_node("rotation_helper/SpotLight") #change for new light model to better improve visibility
 
 	#Getting Animation Node from player_model child
@@ -397,19 +353,6 @@ puppet func update_state(p_position, p_velocity, p_rotation, p_flashlight_on, p_
 	puppet_hat = p_player_hat
 	movement_tween.interpolate_property(self, "global_transform", global_transform, Transform(global_transform.basis, p_position), 0.1)
 	movement_tween.start()
-	
-#	#Check for host model
-#	if puppet_model != PlayerVariables.player_model:
-#		player_model.get_node("player_model").queue_free()
-#		####HERE IS THE RESET!!
-#		if puppet_model == "Male":
-#			var instance = load("res://Scenes/ybot.tscn").instance()
-#			instance.set_name("player_model")
-#			player_model.add_child(instance)
-#		elif puppet_model == "Female":
-#			var instance = load("res://Scenes/xbot.tscn").instance()
-#			instance.set_name("player_model")
-#			player_model.add_child(instance)
 	
 func _on_network_tick_rate_timeout():
 	if is_network_master():

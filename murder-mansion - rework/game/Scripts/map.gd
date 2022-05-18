@@ -17,25 +17,20 @@ func _ready():
 		#$InGameUi.visible = true
 	
 func _instance_player(id):
-	#$InGameUi.visible = true
-	
-	#$Position3D.add_child(load("res://Scenes/player_instance.tscn").instance())
+
 	
 	print("Player Created with ID: "+str(id))
 	var player_instance = player.instance()
 	player_instance.set_network_master(id)
-	player_instance.player_name = _player_name
 	player_instance.name = str(id)
 	add_child(player_instance)
-	player_instance.global_transform.origin = Vector3(0,15,0)
+	player_instance.global_transform.origin = Vector3(0,5,5)
 	var new_label: RichTextLabel = RichTextLabel.new()
 	new_label.rect_size = Vector2(400,15)
 	new_label.fit_content_height = true
-	new_label.text = "\t" + player_instance.player_name #str(id)
-	#$InGameUi/PlayerList.add_child(new_label)
-	#$InGameUi/PlayerList/Title.text = player_instance.player_name
-	#$InGameUi.update()
-	print("Player Name is: "  + player_instance.player_name)
+	
+	
+	
 
 func _player_connected(id):
 	print("Player " + str(id) + " has connected.")
