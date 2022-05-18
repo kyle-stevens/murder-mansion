@@ -1,12 +1,12 @@
 extends Node
 
 const DEFAULT_PORT= 28960
-const MAX_CLIENTS = 4
+const MAX_CLIENTS = 10
 
 var server = null
 var client = null
 
-var ip_address = "127.0.0.1"
+var ip_address = "127.0.0.1:5000"
 
 func _ready():
 	get_tree().connect("connected_to_server",self,"_connected_to_server")

@@ -5,7 +5,6 @@ var _player_name = "player_"
 
 func _ready():
 
-	#$InGameUi.visible = false
 	get_tree().connect("network_peer_connected", self, "_player_connected")
 	get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
 	
@@ -14,7 +13,6 @@ func _ready():
 	
 	if get_tree().network_peer != null:
 		Global.emit_signal("toggle_network_setup", false)
-		#$InGameUi.visible = true
 	
 func _instance_player(id):
 
@@ -25,11 +23,6 @@ func _instance_player(id):
 	player_instance.name = str(id)
 	add_child(player_instance)
 	player_instance.global_transform.origin = Vector3(0,5,5)
-	var new_label: RichTextLabel = RichTextLabel.new()
-	new_label.rect_size = Vector2(400,15)
-	new_label.fit_content_height = true
-	
-	
 	
 
 func _player_connected(id):
