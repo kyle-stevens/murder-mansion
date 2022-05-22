@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/AppearanceMenuConsole.gd" type="Script" id=1]
+
+[node name="AppearanceMenuConsole" type="Area"]
+script = ExtResource( 1 )
+
+[node name="CollisionPolygon" type="CollisionPolygon" parent="."]
+depth = 3.0
+polygon = PoolVector2Array( -2, -1, -2, 2, 0, 2, 2, 0, 2, -1 )
+
+[node name="StaticBody" type="StaticBody" parent="."]
+
+[node name="CSGPolygon" type="CSGPolygon" parent="StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.01621 )
+polygon = PoolVector2Array( -1, -1, -1, 1, 0, 1, 1, 0, 1, -1 )
+depth = 2.0
+
+[node name="CollisionPolygon2" type="CollisionPolygon" parent="StaticBody"]
+depth = 2.0
+polygon = PoolVector2Array( -1, -1, -1, 1, 0, 1, 1, 0, 1, -1 )
+
+[connection signal="body_entered" from="." to="." method="_on_AppearanceMenuConsole_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_AppearanceMenuConsole_body_exited"]
