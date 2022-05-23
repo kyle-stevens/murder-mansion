@@ -8,6 +8,58 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Reference",
+"class": "GotmDebug",
+"language": "GDScript",
+"path": "res://addons/gotm/GotmDebug.gd"
+}, {
+"base": "Reference",
+"class": "GotmFile",
+"language": "GDScript",
+"path": "res://addons/gotm/GotmFile.gd"
+}, {
+"base": "Reference",
+"class": "GotmLobby",
+"language": "GDScript",
+"path": "res://addons/gotm/GotmLobby.gd"
+}, {
+"base": "Reference",
+"class": "GotmLobbyFetch",
+"language": "GDScript",
+"path": "res://addons/gotm/GotmLobbyFetch.gd"
+}, {
+"base": "Reference",
+"class": "GotmUser",
+"language": "GDScript",
+"path": "res://addons/gotm/GotmUser.gd"
+}, {
+"base": "Reference",
+"class": "_GotmDebugImpl",
+"language": "GDScript",
+"path": "res://addons/gotm/_impl/_GotmDebugImpl.gd"
+}, {
+"base": "Reference",
+"class": "_GotmImpl",
+"language": "GDScript",
+"path": "res://addons/gotm/_impl/_GotmImpl.gd"
+}, {
+"base": "Reference",
+"class": "_GotmImplUtility",
+"language": "GDScript",
+"path": "res://addons/gotm/_impl/_GotmImplUtility.gd"
+} ]
+_global_script_class_icons={
+"GotmDebug": "",
+"GotmFile": "",
+"GotmLobby": "",
+"GotmLobbyFetch": "",
+"GotmUser": "",
+"_GotmDebugImpl": "",
+"_GotmImpl": "",
+"_GotmImplUtility": ""
+}
+
 [application]
 
 config/name="murdermansion"
@@ -20,6 +72,7 @@ PlayerVariables="*res://Scripts/player_variables.gd"
 Global="*res://Scripts/global.gd"
 Network="*res://Scripts/network.gd"
 NetworkSetup="*res://Scripts/NetworkSetup.gd"
+Gotm="*res://addons/gotm/Gotm.gd"
 
 [display]
 
