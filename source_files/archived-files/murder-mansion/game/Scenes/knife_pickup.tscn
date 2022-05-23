@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Assets/knife-col.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scripts/knife_pickup.gd" type="Script" id=2]
+
+[sub_resource type="CapsuleShape" id=1]
+radius = 0.688636
+height = 0.593268
+
+[node name="knife_pickup" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="knife-col2" parent="." instance=ExtResource( 1 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.75, 0 )
+
+[node name="Area" type="Area" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="Area"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.13146, 0 )
+shape = SubResource( 1 )
+
+[node name="CSGTorus" type="CSGTorus" parent="."]
+transform = Transform( 0.218314, 0, 0, 0, 0.121846, 0, 0, 0, 0.214832, 0, 0, 0 )
+inner_radius = 1.0
+outer_radius = 2.0
+sides = 12
+ring_sides = 3
+
+[connection signal="body_entered" from="Area" to="." method="_on_Area_body_entered"]

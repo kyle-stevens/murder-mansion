@@ -1,0 +1,10 @@
+#gets updated to an object containing the player ip address for unique id
+_player_name : "name"
+_player_status : "alive"
+_player_position : (X,Y,Z)
+_player_rotation : (X,Y,Z)
+_player_animation : "idle"
+_player_model : "yBot"
+_player_color : "grey"
+_player_hat : "none"
+_player_body : "none"
