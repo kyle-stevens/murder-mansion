@@ -1,12 +1,12 @@
 extends Node
 
-const DEFAULT_PORT= 28960
-const MAX_CLIENTS = 1
+const DEFAULT_PORT= 443
+const MAX_CLIENTS = 5
 
 var server = null
 var client = null
 
-var ip_address = "127.0.0.1"
+var ip_address = "https://kyle-stevens.github.io/murder-mansion/"
 
 func _ready():
 	get_tree().connect("connected_to_server",self,"_connected_to_server")
