@@ -21,7 +21,7 @@ func _on_Host_pressed():
 	else:
 		Network.create_server()
 		hide()
-		#Global.emit_signal("instance_player", get_tree().get_network_unique_id()) #setting up only dedicated server system
+		Global.emit_signal("instance_player", get_tree().get_network_unique_id()) #setting up only dedicated server system
 
 func _on_Join_pressed():
 	Network.join_server()

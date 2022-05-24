@@ -41,6 +41,12 @@ spot_angle_attenuation = 3.0
 [node name="player_camera" type="Camera" parent="rotation_helper"]
 transform = Transform( -1, 0, -8.74227e-08, 0, 1, 0, 8.74227e-08, 0, -0.999999, 0, 1.4, -4.4 )
 
+[node name="CSGBox" type="CSGBox" parent="rotation_helper"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.925767, 0 )
+width = 0.808689
+height = 0.657177
+depth = 0.51783
+
 [node name="network_tick_rate" type="Timer" parent="."]
 wait_time = 0.03
 autostart = true
