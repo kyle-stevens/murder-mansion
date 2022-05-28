@@ -6,7 +6,7 @@ const MAX_CLIENTS = 5
 var server = null
 var client = null
 
-var ip_address = "127.0.0.1"
+var ip_address = "34.168.177.190"
 
 func _ready():
 	get_tree().connect("connected_to_server",self,"_connected_to_server")
