@@ -6,7 +6,7 @@ const MAX_CLIENTS = 5
 var server = null
 var client = null
 
-var ip_address = "34.168.177.190"
+var ip_address = "127.0.0.1"
 
 func _ready():
 	get_tree().connect("connected_to_server",self,"_connected_to_server")
@@ -15,11 +15,17 @@ func _ready():
 	get_tree().connect("network_peer_connected",self,"_player_connected")
 
 func create_server():
+	#upnp cannot detect a router .... this is an issue
+	var upnp = UPNP.new()
+	upnp.discover()
+	upnp.add_port_mapping(28960)
+	print(upnp.get_gateway())
 	print("CREATING SERVER..." + ip_address)
 	
 	server = NetworkedMultiplayerENet.new()
 	server.create_server(DEFAULT_PORT,MAX_CLIENTS)
 	get_tree().set_network_peer(server)
+	upnp.delete_port_mapping(28960)
 	
 func join_server():
 	print("JOINING SERVER..." + ip_address)
