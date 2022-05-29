@@ -19,7 +19,12 @@ func create_server():
 	var upnp = UPNP.new()
 	upnp.discover()
 	upnp.add_port_mapping(28960)
-	print(upnp.get_gateway())
+	
+	print("UPNP Device Count: ", upnp.get_device_count())
+	print("UPNP Device External Address: ", upnp.query_external_address())
+	print("UPNP Device Gateway: ", upnp.get_gateway())
+	
+	
 	print("CREATING SERVER..." + ip_address)
 	
 	server = NetworkedMultiplayerENet.new()
