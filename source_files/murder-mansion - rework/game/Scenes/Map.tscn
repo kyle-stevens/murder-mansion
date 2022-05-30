@@ -27,9 +27,6 @@ fog_transmit_curve = 0.0334929
 [node name="Map" type="Spatial"]
 script = ExtResource( 2 )
 
-[node name="Position3D" type="Position3D" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -26.2914, 3.24697, -25.4052 )
-
 [node name="NetworkSetup" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -218,6 +215,46 @@ shadow_enabled = true
 
 [node name="AppearanceMenuConsole" parent="." instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 2, 9 )
+
+[node name="PlayerPoints" type="CanvasLayer" parent="."]
+
+[node name="PlayerPos1" type="Position3D" parent="PlayerPoints"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 4 )
+
+[node name="PlayerPos2" type="Position3D" parent="PlayerPoints"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 5, 2 )
+
+[node name="PlayerPos3" type="Position3D" parent="PlayerPoints"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 5, 0 )
+
+[node name="PlayerPos4" type="Position3D" parent="PlayerPoints"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -2 )
+
+[node name="PlayerPos5" type="Position3D" parent="PlayerPoints"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -4 )
+
+[node name="PlayerPos6" type="Position3D" parent="PlayerPoints"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -6 )
+
+[node name="PlayerPos7" type="Position3D" parent="PlayerPoints"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -4 )
+
+[node name="PlayerPos8" type="Position3D" parent="PlayerPoints"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -2 )
+
+[node name="PlayerPos9" type="Position3D" parent="PlayerPoints"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 5, 0 )
+
+[node name="PlayerPos10" type="Position3D" parent="PlayerPoints"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 2 )
+
+[node name="PlayerPos11" type="Position3D" parent="PlayerPoints"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 5, 4 )
+
+[node name="PlayerPos12" type="Position3D" parent="PlayerPoints"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 6 )
+
+[node name="Players" type="CanvasLayer" parent="."]
 
 [connection signal="text_changed" from="NetworkSetup/VBoxContainer/PlayerName" to="." method="_on_PlayerName_text_changed"]
 [connection signal="text_changed" from="NetworkSetup/VBoxContainer/PlayerName" to="NetworkSetup" method="_on_PlayerName_text_changed"]

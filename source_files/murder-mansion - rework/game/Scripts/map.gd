@@ -26,8 +26,11 @@ func _instance_player(id):
 	var player_instance = player.instance()
 	player_instance.set_network_master(id)
 	player_instance.name = str(id)
-	add_child(player_instance)
-	player_instance.global_transform.origin = Vector3(0,5,5)
+	$Players.add_child(player_instance)
+	var ActivePlayers = $Players.get_child_count() - 1
+	player_instance.global_transform.origin = $PlayerPoints.get_children()[ActivePlayers].global_transform.origin
+		
+	#player_instance.global_transform.origin = Vector3(0,5,5)
 	
 
 func _player_connected(id):
