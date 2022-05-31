@@ -2,8 +2,15 @@ extends Spatial
 
 var player = preload("res://Scenes/player_instance.tscn")
 var _player_name = "player_"
+signal start_game
 
 func _ready():
+	
+	#expanding spawn points via code since its easier than doing by hand
+	for spawn_point in $PlayerPoints.get_children():
+		spawn_point.global_transform.origin = Vector3(spawn_point.global_transform.origin.x*3, spawn_point.global_transform.origin.y, spawn_point.global_transform.origin.z*3)
+	
+	
 	#not working
 	var upnp = UPNP.new()
 	upnp.discover(2000,2,"InternetGatewayDevice")
@@ -41,7 +48,7 @@ func _player_connected(id):
 func _player_disconnected(id):
 	print("Player "+str(id)+" has disconnected")
 	
-	if has_node(str(id)):
+	if has_node("Players/" + str(id)):
 		get_node(str(id)).queue_free()
 
 func _on_PlayerName_text_changed(new_text):

@@ -54,6 +54,7 @@ onready var player_model = get_node("player_model")
 var init
 
 func _ready():
+	Global.connect("start_game",self,"_start_game")
 	if is_network_master():
 		PlayerVariables.player_active_camera = camera
 		var center = Vector2(1280.0/2.0, 720.0/2.0)
@@ -359,3 +360,6 @@ func _on_network_tick_rate_timeout():
 		rpc_unreliable("update_state", global_transform.origin, vel, Vector2(camera.rotation.x, rotation.y), flashlight.visible, animation_player.current_animation, PlayerVariables.player_name, PlayerVariables.player_model, PlayerVariables.player_color, PlayerVariables.player_hat)
 	else:
 		network_tick_rate.stop()
+		
+func _start_game():
+	pass

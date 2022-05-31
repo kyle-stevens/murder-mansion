@@ -63,7 +63,7 @@ _global_script_class_icons={
 [application]
 
 config/name="murdermansion"
-run/main_scene="res://Scenes/Map.tscn"
+run/main_scene="res://Scenes/Game.tscn"
 config/icon="res://Assets/icon.png"
 
 [autoload]
