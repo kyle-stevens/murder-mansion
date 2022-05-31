@@ -21,6 +21,7 @@ var puppet_model : String = ""
 var puppet_color : String = ""
 var puppet_hat : String = ""
 var puppet_nametag : String
+
 export(NodePath) onready var movement_tween = get_node("movement_tween") as Tween
 export(NodePath) onready var network_tick_rate = get_node("network_tick_rate") as Timer
 
@@ -142,6 +143,7 @@ func initFunc():
 	init = true
 
 func _physics_process(delta):
+	print(Global.map_code)
 	if not init:
 		initFunc()
 	else:
@@ -342,7 +344,7 @@ func process_movement(delta):
 remote func _set_position(pos):
 	global_transform.origin = pos
 
-puppet func update_state(p_position, p_velocity, p_rotation, p_flashlight_on, p_animation, p_player_name, p_player_model, p_player_color, p_player_hat):
+puppet func update_state(p_position, p_velocity, p_rotation, p_flashlight_on, p_animation, p_player_name, p_player_model, p_player_color, p_player_hat, p_map_code):
 	puppet_pos = p_position
 	puppet_rot = p_rotation
 	puppet_vel = p_velocity
@@ -352,14 +354,17 @@ puppet func update_state(p_position, p_velocity, p_rotation, p_flashlight_on, p_
 	puppet_model = p_player_model
 	puppet_color = p_player_color
 	puppet_hat = p_player_hat
+	if Global.map_code == 0:
+		Global.map_code = p_map_code
 	movement_tween.interpolate_property(self, "global_transform", global_transform, Transform(global_transform.basis, p_position), 0.1)
 	movement_tween.start()
 	
 func _on_network_tick_rate_timeout():
 	if is_network_master():
-		rpc_unreliable("update_state", global_transform.origin, vel, Vector2(camera.rotation.x, rotation.y), flashlight.visible, animation_player.current_animation, PlayerVariables.player_name, PlayerVariables.player_model, PlayerVariables.player_color, PlayerVariables.player_hat)
+		rpc_unreliable("update_state", global_transform.origin, vel, Vector2(camera.rotation.x, rotation.y), flashlight.visible, animation_player.current_animation, PlayerVariables.player_name, PlayerVariables.player_model, PlayerVariables.player_color, PlayerVariables.player_hat, Global.map_code)
 	else:
 		network_tick_rate.stop()
 		
 func _start_game():
-	pass
+	#will be randomly generated later on
+	Global.map_code = 152

@@ -49,7 +49,7 @@ func _player_disconnected(id):
 	print("Player "+str(id)+" has disconnected")
 	
 	if has_node("Players/" + str(id)):
-		get_node(str(id)).queue_free()
+		get_node("Players/" + str(id)).queue_free()
 
 func _on_PlayerName_text_changed(new_text):
 	_player_name = new_text
