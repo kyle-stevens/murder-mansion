@@ -95,7 +95,12 @@ func updateAppearance():
 func initFunc():
 	#Check if Instance is Network Master for Camera Focus
 	camera.current = is_network_master()
-
+	
+	$Sprite3D/Viewport/Label.text = "   " + PlayerVariables.player_name + "   "
+	$Sprite3D/Viewport/Label.rect_size = $Sprite3D/Viewport/Label.get_font("font").get_string_size($Sprite3D/Viewport/Label.text)
+	$Sprite3D/Viewport.size = $Sprite3D/Viewport/Label.rect_size
+	$Sprite3D.texture = $Sprite3D/Viewport.get_texture()
+	
 	#Set Model for Player
 	if is_network_master():
 		if PlayerVariables.player_model == "Male":
@@ -108,10 +113,7 @@ func initFunc():
 			player_model.add_child(instance)
 			
 		
-		$Sprite3D/Viewport/Label.text = "   " + PlayerVariables.player_name + "   "
-		$Sprite3D/Viewport/Label.rect_size = $Sprite3D/Viewport/Label.get_font("font").get_string_size($Sprite3D/Viewport/Label.text)
-		$Sprite3D/Viewport.size = $Sprite3D/Viewport/Label.rect_size
-		$Sprite3D.texture = $Sprite3D/Viewport.get_texture()
+		
 		
 	else:
 		if puppet_model == "Male":
