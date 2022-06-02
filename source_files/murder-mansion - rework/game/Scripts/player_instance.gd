@@ -143,7 +143,7 @@ func initFunc():
 	init = true
 
 func _physics_process(delta):
-	print(Global.map_code)
+	#print(Global.map_code)
 	if not init:
 		initFunc()
 	else:
