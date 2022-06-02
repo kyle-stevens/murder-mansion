@@ -120,7 +120,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 6 )
 [node name="Map" type="CanvasLayer" parent="."]
 
 [node name="StartGame" parent="Map" instance=ExtResource( 5 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 13 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 2, 16 )
 
 [node name="Floor" type="StaticBody" parent="Map"]
 transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0, 0 )
