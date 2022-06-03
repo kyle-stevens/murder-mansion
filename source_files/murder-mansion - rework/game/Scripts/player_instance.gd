@@ -65,6 +65,7 @@ func _ready():
 		$UI.visible = false
 	pass
 	init = false
+	
 
 func updateAppearance():
 	if is_network_master():
@@ -121,6 +122,10 @@ func initFunc():
 			instance.set_name("player_model")
 			player_model.add_child(instance)
 		elif puppet_model == "Female":
+			var instance = load("res://Scenes/xbot.tscn").instance()
+			instance.set_name("player_model")
+			player_model.add_child(instance)
+		else:
 			var instance = load("res://Scenes/xbot.tscn").instance()
 			instance.set_name("player_model")
 			player_model.add_child(instance)
