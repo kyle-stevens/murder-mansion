@@ -94,6 +94,9 @@ func updateAppearance():
 			player_model.get_node("player_model/Skeleton/HeadAttachment/MeshInstance").mesh = load(puppet_hat)
 
 func initFunc():
+	##ISSUE IS HERE, PLAYER INFO NOT PRESENT AT VERY START DUE TO NETWORK DELAY - THIS INCLUDES COLORS AND MODEL AND NAME
+	
+	
 	#Check if Instance is Network Master for Camera Focus
 	camera.current = is_network_master()
 	
@@ -113,19 +116,12 @@ func initFunc():
 			instance.set_name("player_model")
 			player_model.add_child(instance)
 			
-		
-		
-		
 	else:
 		if puppet_model == "Male":
 			var instance = load("res://Scenes/ybot.tscn").instance()
 			instance.set_name("player_model")
 			player_model.add_child(instance)
 		elif puppet_model == "Female":
-			var instance = load("res://Scenes/xbot.tscn").instance()
-			instance.set_name("player_model")
-			player_model.add_child(instance)
-		else:
 			var instance = load("res://Scenes/xbot.tscn").instance()
 			instance.set_name("player_model")
 			player_model.add_child(instance)
