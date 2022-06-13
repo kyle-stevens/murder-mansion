@@ -146,7 +146,14 @@ func initFunc():
 	init = true
 
 func _physics_process(delta):
-	#print(Global.map_code)
+
+	#Trying to fix gotm issue with player appearing
+	if (puppet_name == "" and
+	puppet_anim == "animationIdle" and
+	puppet_hat == "") and not is_network_master():
+		pass
+		return 
+	
 	if not init:
 		initFunc()
 	else:
