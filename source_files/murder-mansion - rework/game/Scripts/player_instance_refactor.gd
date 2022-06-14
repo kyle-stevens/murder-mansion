@@ -72,7 +72,7 @@ func _ready():
 	# Connect the _start_game function which will generate a map code from a
 	# chosen seed (yet to be implemented)
 	Global.connect("start_game",self,"_start_game")
-	
+
 	# Enable and/or disable ui based on whether player is/isn't the network
 	# master player
 	if is_network_master():
@@ -81,7 +81,7 @@ func _ready():
 		$UI/popupMesg.set_position(Vector2(
 			center.x - ($UI/popupMesg.rect_size.x), 150.0), false)
 		# Rect_size.x instead of Rectsize.x/2 bc of scaling of label
-		
+
 		$UI/popupMesg.text = ""
 	else:
 		$UI.visible = false
@@ -93,7 +93,7 @@ func _ready():
 func updateAppearance():
 	if is_network_master():
 		var player_model_surface_colors
-		
+
 		# Determine which model the player is using
 		if PlayerVariables.player_model == "Female":
 			player_model_surface_colors = \
@@ -101,11 +101,11 @@ func updateAppearance():
 		else:
 			player_model_surface_colors = \
 				player_model.get_node("./player_model/Skeleton/Alpha_Surface")
-				
+
 		player_model_surface_colors.set_surface_material(
 		0,load(PlayerVariables.player_color)
 		)
-		
+
 		# Set Hat models for player
 		if PlayerVariables.player_hat != "":
 			player_model.get_node(
@@ -113,7 +113,7 @@ func updateAppearance():
 				).mesh = load(PlayerVariables.player_hat)
 	else:
 		var player_model_surface_colors
-		
+
 		# Determine which model the puppet is using
 		if puppet_model == "Female":
 			player_model_surface_colors = \
@@ -121,11 +121,92 @@ func updateAppearance():
 		else:
 			player_model_surface_colors = \
 				player_model.get_node("./player_model/Skeleton/Alpha_Surface")
-				
+
 		player_model_surface_colors.set_surface_material(0,load(puppet_color))
-		
+
 		# Set Hat for puppet
 		if puppet_hat != "":
 			player_model.get_node(
 				"player_model/Skeleton/HeadAttachment/MeshInstance"
 				).mesh = load(puppet_hat)
+
+###############################################################################
+# Called once to initialize certain attributes of the player instance after ###
+# it has loaded into and connected with the host, called after connection #####
+# is established to load up model and certain ui elements #####################
+###############################################################################
+func initFunc():
+	# Check that camera is for the network master
+	camera.current = is_network_master()
+
+	# Set name label and generate bounding box for label
+	$Sprite3D/Viewport/Label.text = "   " + \
+		PlayerVariables.player_name + \
+		"   "
+	$Sprite3D/Viewport/Label.rect_size = \
+		$Sprite3D/Viewport/Label.get_font("font") \
+		.get_string_size($Sprite3D/Viewport/Label.text)
+	$Sprite3D/Viewport.size = $Sprite3D/Viewport/Label.rect_size
+	$Sprite3D.texture = $Sprite3D/Viewport.get_texture()
+
+	# Set Player Model
+	if is_network_master():
+		if PlayerVariables.player_model == "Male":
+			var instance = load("res://Scenes/ybot.tscn").instance()
+			instance.set_name("player_model")
+			player_model.add_child(instance)
+		elif PlayerVariables.player_model == "Female":
+			var instance = load("res://Scenes/xbot.tscn").instance()
+			instance.set_name("player_model")
+			player_model.add_child(instance)
+	else:
+		if puppet_model == "Male":
+			var instance = load("res://Scenes/ybot.tscn").instance()
+			instance.set_name("player_model")
+			player_model.add_child(instance)
+		elif puppet_model == "Female":
+			var instance = load("res://Scenes/xbot.tscn").instance()
+			instance.set_name("player_model")
+			player_model.add_child(instance)
+
+		$Sprite3D/Viewport/Label.text = "   " + puppet_name + "   "
+		$Sprite3D.texture = $Sprite3D/Viewport.get_texture()
+
+	# Get Flashlight Node from player model
+	flashlight = get_node("rotation_helper/SpotLight")
+
+	# Getting Animation Node from player_model child
+	animation_player = get_node("player_model/player_model/AnimationPlayer")
+
+	# Set Initial Animation
+	animation_player.play("animationIdle")
+
+	# Initial Mouse Mode
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+	# Set Sprint Energy
+	sprint_energy = 100
+	sprint_recharge = false
+
+	# Set Initialization Value
+	init = true
+
+###############################################################################
+# Looping physics process to handle phyiscs simulation and movement updates ###
+# for all entities in the world scene #########################################
+###############################################################################
+func _physics_process(delta):
+
+	# Handling for network connectivity waiting and hosting timing
+	if (puppet_name == "" and
+	puppet_anim == "animationIdle" and
+	puppet_hat == "") and not is_network_master():
+		return
+
+	if not init:
+		initFunc()
+	else:
+		updateAppearance()
+
+	process_inputs(delta)
+	process_movement(delta)
