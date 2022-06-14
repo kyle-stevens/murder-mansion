@@ -21,6 +21,7 @@ var puppet_model : String = ""
 var puppet_color : String = ""
 var puppet_hat : String = ""
 var puppet_nametag : String
+var puppet_alive : bool = true
 
 export(NodePath) onready var movement_tween = get_node("movement_tween") as Tween
 export(NodePath) onready var network_tick_rate = get_node("network_tick_rate") as Timer
@@ -153,7 +154,7 @@ func _physics_process(delta):
 	puppet_hat == "") and not is_network_master():
 		pass
 		return 
-	
+	###############################################
 	if not init:
 		initFunc()
 	else:
