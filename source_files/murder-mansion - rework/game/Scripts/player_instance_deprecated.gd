@@ -1,7 +1,3 @@
-###############################################################################
-# PlayerInstance Script : #####################################################
-###############################################################################
-
 extends KinematicBody
 
 ###CONSTANTS###################################################################
@@ -27,129 +23,90 @@ var puppet_hat : String = ""
 var puppet_nametag : String
 var puppet_alive : bool = true
 
-export(NodePath) onready var movement_tween = \
-	get_node("movement_tween") as Tween
-export(NodePath) onready var network_tick_rate = \
-	get_node("network_tick_rate") as Timer
+export(NodePath) onready var movement_tween = get_node("movement_tween") as Tween
+export(NodePath) onready var network_tick_rate = get_node("network_tick_rate") as Timer
 
 ###ANIMATION###################################################################
 var animation_player : AnimationPlayer
 var current_animation : String
 
-###PLAYER VARIABLES############################################################
-######MOVEMENT#################################################################
+###MOVEMENT####################################################################
 var is_sprinting : bool
 var vel : Vector3 = Vector3()
 var dir : Vector3 = Vector3()
 var sprint_energy : int
 var sprint_recharge : bool
 
-######FLASHLIGHT###############################################################
+###FLASHLIGHT##################################################################
 var flashlight : SpotLight
 
-######CAMERA###################################################################
+###CAMERA######################################################################
 onready var camera = get_node("rotation_helper/player_camera")
 export var x_range = 25
 
-######ROTATION HELPER##########################################################
+###ROTATION HELPER#############################################################
 onready var rotation_helper = get_node("rotation_helper")
 export var mouse_sensitivity = 0.05
 
-######UI#######################################################################
+###UI##########################################################################
 var reticle : String #Not yet implemented
 
-######PLAYER MODEL#############################################################
+###PLAYER MODEL################################################################
 onready var player_model = get_node("player_model")
+var init
 
-###HELPER VARIABLES FOR NETWORKING#############################################
-var init : bool = false
-
-###############################################################################
-# Ready Function called on Scene creation and instancing, enables the camera ##
-# and sets up UI for network master scene. ####################################
-###############################################################################
 func _ready():
-	# Connect the _start_game function which will generate a map code from a
-	# chosen seed (yet to be implemented)
 	Global.connect("start_game",self,"_start_game")
-
-	# Enable and/or disable ui based on whether player is/isn't the network
-	# master player
 	if is_network_master():
 		PlayerVariables.player_active_camera = camera
 		var center = Vector2(1280.0/2.0, 720.0/2.0)
-		$UI/popupMesg.set_position(Vector2(
-			center.x - ($UI/popupMesg.rect_size.x), 150.0), false)
-		# Rect_size.x instead of Rectsize.x/2 bc of scaling of label
-
+		$UI/popupMesg.set_position(Vector2(center.x - ($UI/popupMesg.rect_size.x), 150.0), false) #Rect_size.x instead of Rectsize.x/2 bc of scaling of label
 		$UI/popupMesg.text = ""
 	else:
 		$UI.visible = false
+	pass
+	init = false
+	
 
-###############################################################################
-# Called every delta iteration looping to maintain player model appearance ####
-# and update when player color/model is changed ###############################
-###############################################################################
 func updateAppearance():
 	if is_network_master():
 		var player_model_surface_colors
-
-		# Determine which model the player is using
 		if PlayerVariables.player_model == "Female":
-			player_model_surface_colors = \
-				player_model.get_node("./player_model/Skeleton/Beta_Surface")
+			player_model_surface_colors = player_model.get_node("./player_model/Skeleton/Beta_Surface")
 		else:
-			player_model_surface_colors = \
-				player_model.get_node("./player_model/Skeleton/Alpha_Surface")
-
-		player_model_surface_colors.set_surface_material(
-		0,load(PlayerVariables.player_color)
-		)
-
-		# Set Hat models for player
+			player_model_surface_colors = player_model.get_node("./player_model/Skeleton/Alpha_Surface")
+		player_model_surface_colors.set_surface_material(0,load(PlayerVariables.player_color))
+		
+		###Hat stuff will go here
 		if PlayerVariables.player_hat != "":
-			player_model.get_node(
-				"player_model/Skeleton/HeadAttachment/MeshInstance"
-				).mesh = load(PlayerVariables.player_hat)
+			player_model.get_node("player_model/Skeleton/HeadAttachment/MeshInstance").mesh = load(PlayerVariables.player_hat)
+		
+		
 	else:
 		var player_model_surface_colors
-
-		# Determine which model the puppet is using
 		if puppet_model == "Female":
-			player_model_surface_colors = \
-				player_model.get_node("./player_model/Skeleton/Beta_Surface")
+			player_model_surface_colors = player_model.get_node("./player_model/Skeleton/Beta_Surface")
 		else:
-			player_model_surface_colors = \
-				player_model.get_node("./player_model/Skeleton/Alpha_Surface")
-
+			player_model_surface_colors = player_model.get_node("./player_model/Skeleton/Alpha_Surface")
+		
 		player_model_surface_colors.set_surface_material(0,load(puppet_color))
-
-		# Set Hat for puppet
+		
 		if puppet_hat != "":
-			player_model.get_node(
-				"player_model/Skeleton/HeadAttachment/MeshInstance"
-				).mesh = load(puppet_hat)
+			player_model.get_node("player_model/Skeleton/HeadAttachment/MeshInstance").mesh = load(puppet_hat)
 
-###############################################################################
-# Called once to initialize certain attributes of the player instance after ###
-# it has loaded into and connected with the host, called after connection #####
-# is established to load up model and certain ui elements #####################
-###############################################################################
 func initFunc():
-	# Check that camera is for the network master
+	##ISSUE IS HERE, PLAYER INFO NOT PRESENT AT VERY START DUE TO NETWORK DELAY - THIS INCLUDES COLORS AND MODEL AND NAME
+	
+	
+	#Check if Instance is Network Master for Camera Focus
 	camera.current = is_network_master()
-
-	# Set name label and generate bounding box for label
-	$Sprite3D/Viewport/Label.text = "   " + \
-		PlayerVariables.player_name + \
-		"   "
-	$Sprite3D/Viewport/Label.rect_size = \
-		$Sprite3D/Viewport/Label.get_font("font") \
-		.get_string_size($Sprite3D/Viewport/Label.text)
+	
+	$Sprite3D/Viewport/Label.text = "   " + PlayerVariables.player_name + "   "
+	$Sprite3D/Viewport/Label.rect_size = $Sprite3D/Viewport/Label.get_font("font").get_string_size($Sprite3D/Viewport/Label.text)
 	$Sprite3D/Viewport.size = $Sprite3D/Viewport/Label.rect_size
 	$Sprite3D.texture = $Sprite3D/Viewport.get_texture()
-
-	# Set Player Model
+	
+	#Set Model for Player
 	if is_network_master():
 		if PlayerVariables.player_model == "Male":
 			var instance = load("res://Scenes/ybot.tscn").instance()
@@ -159,6 +116,7 @@ func initFunc():
 			var instance = load("res://Scenes/xbot.tscn").instance()
 			instance.set_name("player_model")
 			player_model.add_child(instance)
+			
 	else:
 		if puppet_model == "Male":
 			var instance = load("res://Scenes/ybot.tscn").instance()
@@ -168,53 +126,43 @@ func initFunc():
 			var instance = load("res://Scenes/xbot.tscn").instance()
 			instance.set_name("player_model")
 			player_model.add_child(instance)
-
+		
 		$Sprite3D/Viewport/Label.text = "   " + puppet_name + "   "
 		$Sprite3D.texture = $Sprite3D/Viewport.get_texture()
+	#Get Flashlight Node from player model
+	flashlight = get_node("rotation_helper/SpotLight") #change for new light model to better improve visibility
 
-	# Get Flashlight Node from player model
-	flashlight = get_node("rotation_helper/SpotLight")
-
-	# Getting Animation Node from player_model child
+	#Getting Animation Node from player_model child
 	animation_player = get_node("player_model/player_model/AnimationPlayer")
 
-	# Set Initial Animation
+	#Set Initial Animation
 	animation_player.play("animationIdle")
 
-	# Initial Mouse Mode
+	#Initial Mouse Mode
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
-	# Set Sprint Energy
+	#Set Sprint Energy
 	sprint_energy = 100
 	sprint_recharge = false
-
-	# Set Initialization Value
 	init = true
 
-###############################################################################
-# Looping physics process to handle phyiscs simulation and movement updates ###
-# for all entities in the world scene #########################################
-###############################################################################
 func _physics_process(delta):
 
-	# Handling for network connectivity waiting and hosting timing
+	#Trying to fix gotm issue with player appearing
 	if (puppet_name == "" and
 	puppet_anim == "animationIdle" and
 	puppet_hat == "") and not is_network_master():
-		return
-
+		pass
+		return 
+	###############################################
 	if not init:
 		initFunc()
 	else:
+		pass
 		updateAppearance()
-
 	process_inputs(delta)
 	process_movement(delta)
 
-###############################################################################
-# If instance in network master, track mouse input movements and handle #######
-# rotational movements and commands ###########################################
-###############################################################################
 func _input(event):
 	if is_network_master():
 		if event is InputEventMouseMotion and \
@@ -231,14 +179,10 @@ func _input(event):
 
 			rotation_helper.rotation_degrees = camera_rot
 
-###############################################################################
-# Handles inputs that are related to movement and non rotational input ########
-# Implements movement, and eventual killer/prey mechanics and commands ########
-###############################################################################
 func process_inputs(delta):
+		#make sprint energy a bar
 		if is_network_master():
-
-			# Handling Sprint Recharge Mechanic
+			#Handling Sprint Recharge Mechanic
 			if sprint_recharge:
 				if sprint_energy <= 50:
 					is_sprinting = false
@@ -269,6 +213,7 @@ func process_inputs(delta):
 			var backward = false
 			var left = false
 			var right = false
+
 
 			if Input.is_action_pressed("movement_forward"):
 				input_movement_vector.y += 1
@@ -324,16 +269,12 @@ func process_inputs(delta):
 				elif right and is_on_floor():
 					animation_player.play("animationRightStrafeRun")
 
-			# Handle Idle Animation
-			if abs(vel.x) < 1 and \
-				abs(vel.y) < 1 and \
-				abs(vel.z) < 1 and \
-				is_on_floor():
-				animation_player.play("animationIdle")
 
+
+			if abs(vel.x) < 1 and abs(vel.y) < 1 and abs(vel.z) < 1 and is_on_floor():
+				animation_player.play("animationIdle")
 			if not is_on_floor():
 				animation_player.play("animationFalling")
-
 			input_movement_vector = input_movement_vector.normalized()
 
 			dir += -cam_xform.basis.z * input_movement_vector.y
@@ -366,10 +307,6 @@ func process_inputs(delta):
 			else:
 				is_sprinting = false
 
-###############################################################################
-# Process the movements based on input commands and apply those commands to ###
-# the player instance #########################################################
-###############################################################################
 func process_movement(delta):
 	dir.y = 0
 	dir = dir.normalized()
@@ -402,7 +339,10 @@ func process_movement(delta):
 		rotation.y = puppet_rot.y
 		camera.rotation.x = puppet_rot.x
 		flashlight.visible = puppet_flash
-
+	
+	#Trying to fix weird jump glitch when walking into other player
+	
+	
 	if !movement_tween.is_active():
 		vel = move_and_slide(
 				vel,
@@ -412,27 +352,10 @@ func process_movement(delta):
 				deg2rad(MAX_SLOPE_ANGLE)
 				)
 
-###############################################################################
-# Remote Position function ####################################################
-###############################################################################
 remote func _set_position(pos):
 	global_transform.origin = pos
 
-###############################################################################
-# Puppet Function to set puppet variables based on rpc messages ###############
-###############################################################################
-puppet func update_state(
-	p_position,
-	p_velocity,
-	p_rotation,
-	p_flashlight_on,
-	p_animation,
-	p_player_name,
-	p_player_model,
-	p_player_color,
-	p_player_hat,
-	p_map_code
-	):
+puppet func update_state(p_position, p_velocity, p_rotation, p_flashlight_on, p_animation, p_player_name, p_player_model, p_player_color, p_player_hat, p_map_code):
 	puppet_pos = p_position
 	puppet_rot = p_rotation
 	puppet_vel = p_velocity
@@ -444,39 +367,15 @@ puppet func update_state(
 	puppet_hat = p_player_hat
 	if Global.map_code == 0:
 		Global.map_code = p_map_code
-	movement_tween.interpolate_property(
-		self,
-		"global_transform",
-		global_transform,
-		Transform(global_transform.basis, p_position),
-		0.1
-		)
+	movement_tween.interpolate_property(self, "global_transform", global_transform, Transform(global_transform.basis, p_position), 0.1)
 	movement_tween.start()
-
-###############################################################################
-# Network Tick Timer for moderating the network messages ######################
-###############################################################################
+	
 func _on_network_tick_rate_timeout():
 	if is_network_master():
-		rpc_unreliable(
-			"update_state",
-			global_transform.origin,
-			vel,
-			Vector2(camera.rotation.x, rotation.y),
-			flashlight.visible,
-			animation_player.current_animation,
-			PlayerVariables.player_name,
-			PlayerVariables.player_model,
-			PlayerVariables.player_color,
-			PlayerVariables.player_hat,
-			Global.map_code
-			)
+		rpc_unreliable("update_state", global_transform.origin, vel, Vector2(camera.rotation.x, rotation.y), flashlight.visible, animation_player.current_animation, PlayerVariables.player_name, PlayerVariables.player_model, PlayerVariables.player_color, PlayerVariables.player_hat, Global.map_code)
 	else:
 		network_tick_rate.stop()
-
-###############################################################################
-# Generate Map Code for Random Map Generation #################################
-###############################################################################
+		
 func _start_game():
 	#will be randomly generated later on
 	Global.map_code = 152

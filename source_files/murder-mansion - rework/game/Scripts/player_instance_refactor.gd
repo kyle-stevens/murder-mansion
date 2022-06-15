@@ -210,3 +210,273 @@ func _physics_process(delta):
 
 	process_inputs(delta)
 	process_movement(delta)
+
+###############################################################################
+# If instance in network master, track mouse input movements and handle #######
+# rotational movements and commands ###########################################
+###############################################################################
+func _input(event):
+	if is_network_master():
+		if event is InputEventMouseMotion and \
+		Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+			rotation_helper.rotate_x(
+					deg2rad(event.relative.y*mouse_sensitivity * 1))
+					#change to 1 for inverted mouse up/dwn
+			self.rotate_y(
+					deg2rad(event.relative.x*mouse_sensitivity * -1))
+					#change to 1 for inverted mouse left/right
+
+			var camera_rot = rotation_helper.rotation_degrees
+			camera_rot.x = clamp(camera_rot.x, -x_range, x_range)
+
+			rotation_helper.rotation_degrees = camera_rot
+
+###############################################################################
+# Handles inputs that are related to movement and non rotational input ########
+# Implements movement, and eventual killer/prey mechanics and commands ########
+###############################################################################
+func process_inputs(delta):
+		if is_network_master():
+
+			# Handling Sprint Recharge Mechanic
+			if sprint_recharge:
+				if sprint_energy <= 50:
+					is_sprinting = false
+				else:
+					sprint_recharge = false
+			else:
+				if sprint_energy <= 0:
+					is_sprinting = false
+					sprint_recharge = true
+			if sprint_energy > 100:
+				sprint_energy = 100
+			$UI/staminaBar.value = sprint_energy
+			#Purely for demo instancing of player
+			#print(vel)
+
+			#Check if Jumping
+			if is_on_floor(): #keeps motion while in jump
+				dir = Vector3()
+
+			#Camera Transform
+			var cam_xform = camera.get_global_transform()
+
+			#Set Input Movement
+			var input_movement_vector = Vector2()
+
+			#Booleans for Movement
+			var forward = false
+			var backward = false
+			var left = false
+			var right = false
+
+			if Input.is_action_pressed("movement_forward"):
+				input_movement_vector.y += 1
+				forward = true
+			if Input.is_action_pressed("movement_backward"):
+				input_movement_vector.y -= 1
+				backward = true
+			if Input.is_action_pressed("movement_left"):
+				input_movement_vector.x -= 1
+				left = true
+			if Input.is_action_pressed("movement_right"):
+				input_movement_vector.x += 1
+				right = true
+
+			if not is_sprinting:
+				sprint_energy += 1
+				if forward and is_on_floor():
+					if left:
+						animation_player.play("animationLeftStrafeWalk")
+					elif right:
+						animation_player.play("animationRightStrafeWalk")
+					else:
+						animation_player.play("animationWalk")
+				elif backward and is_on_floor():
+					if left:
+						animation_player.play_backwards("animationRightStrafeWalk")
+					elif right:
+						animation_player.play_backwards("animationLeftStrafeWalk")
+					else:
+						animation_player.play_backwards("animationWalk")
+				elif left and is_on_floor():
+					animation_player.play("animationLeftStrafeWalk")
+				elif right and is_on_floor():
+					animation_player.play("animationRightStrafeWalk")
+			elif is_sprinting:
+				sprint_energy -= 1
+				if forward and is_on_floor():
+					if left:
+						animation_player.play("animationLeftStrafeRun")
+					elif right:
+						animation_player.play("animationRightStrafeRun")
+					else:
+						animation_player.play("animationRun")
+				elif backward and is_on_floor():
+					if left:
+						animation_player.play_backwards("animationRightStrafeRun")
+					elif right:
+						animation_player.play_backwards("animationLeftStrafeRun")
+					else:
+						animation_player.play_backwards("animationRun")
+				elif left and is_on_floor():
+					animation_player.play("animationLeftStrafeRun")
+				elif right and is_on_floor():
+					animation_player.play("animationRightStrafeRun")
+
+			# Handle Idle Animation
+			if abs(vel.x) < 1 and \
+				abs(vel.y) < 1 and \
+				abs(vel.z) < 1 and \
+				is_on_floor():
+				animation_player.play("animationIdle")
+
+			if not is_on_floor():
+				animation_player.play("animationFalling")
+
+			input_movement_vector = input_movement_vector.normalized()
+
+			dir += -cam_xform.basis.z * input_movement_vector.y
+			dir += cam_xform.basis.x * input_movement_vector.x
+
+			#Jump Movement
+			if is_on_floor():
+				if Input.is_action_just_pressed("movement_jump"):
+					vel.y = JUMP_SPEED
+					animation_player.play("animationFalling")
+
+			#Cursor Freeing
+			if Input.is_action_just_pressed("ui_cancel"):
+				print("cursor freeing")
+				if Input.get_mouse_mode() == Input.MOUSE_MODE_VISIBLE:
+					Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+				else:
+					Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+			#Flashlight Toggle
+			if Input.is_action_just_pressed("player_flashlight"):
+				if flashlight.visible == true:
+					flashlight.visible = false
+				else:
+					flashlight.visible = true
+
+			#Sprinting Movement
+			if Input.is_action_pressed("movement_sprint"):
+				is_sprinting = true
+			else:
+				is_sprinting = false
+
+###############################################################################
+# Process the movements based on input commands and apply those commands to ###
+# the player instance #########################################################
+###############################################################################
+func process_movement(delta):
+	dir.y = 0
+	dir = dir.normalized()
+	vel.y += delta * GRAVITY
+	if is_network_master():
+		var hvel = vel
+		hvel.y = 0
+		var target = dir
+		#target *= MAX_SPEED
+		if is_sprinting:
+			target *= MAX_SPRINT_SPEED
+		else:
+			target *= MAX_SPEED
+		var accel
+		if dir.dot(hvel) > 0:
+			if is_sprinting:
+				accel = SPRINT_ACCEL
+			else:
+				accel = ACCEL
+		else:
+			accel = DEACCEL
+		hvel = hvel.linear_interpolate(target, accel * delta)
+		vel.x = hvel.x
+		vel.z = hvel.z
+	else:
+		global_transform.origin = puppet_pos
+		animation_player.play(puppet_anim)
+		vel.x = puppet_vel.x
+		vel.z = puppet_vel.z
+		rotation.y = puppet_rot.y
+		camera.rotation.x = puppet_rot.x
+		flashlight.visible = puppet_flash
+
+	if !movement_tween.is_active():
+		vel = move_and_slide(
+				vel,
+				Vector3(0,1,0),
+				0.05,
+				4,
+				deg2rad(MAX_SLOPE_ANGLE)
+				)
+
+###############################################################################
+# Remote Position function ####################################################
+###############################################################################
+remote func _set_position(pos):
+	global_transform.origin = pos
+
+###############################################################################
+# Puppet Function to set puppet variables based on rpc messages ###############
+###############################################################################
+puppet func update_state(
+	p_position,
+	p_velocity,
+	p_rotation,
+	p_flashlight_on,
+	p_animation,
+	p_player_name,
+	p_player_model,
+	p_player_color,
+	p_player_hat,
+	p_map_code
+	):
+	puppet_pos = p_position
+	puppet_rot = p_rotation
+	puppet_vel = p_velocity
+	puppet_flash = p_flashlight_on
+	puppet_anim = p_animation
+	puppet_name = p_player_name #player username
+	puppet_model = p_player_model
+	puppet_color = p_player_color
+	puppet_hat = p_player_hat
+	if Global.map_code == 0:
+		Global.map_code = p_map_code
+	movement_tween.interpolate_property(
+		self,
+		"global_transform",
+		global_transform,
+		Transform(global_transform.basis, p_position),
+		0.1
+		)
+	movement_tween.start()
+
+###############################################################################
+# Network Tick Timer for moderating the network messages ######################
+###############################################################################
+func _on_network_tick_rate_timeout():
+	if is_network_master():
+		rpc_unreliable(
+			"update_state",
+			global_transform.origin,
+			vel,
+			Vector2(camera.rotation.x, rotation.y),
+			flashlight.visible,
+			animation_player.current_animation,
+			PlayerVariables.player_name,
+			PlayerVariables.player_model,
+			PlayerVariables.player_color,
+			PlayerVariables.player_hat,
+			Global.map_code
+			)
+	else:
+		network_tick_rate.stop()
+
+###############################################################################
+# Generate Map Code for Random Map Generation #################################
+###############################################################################
+func _start_game():
+	#will be randomly generated later on
+	Global.map_code = 152
