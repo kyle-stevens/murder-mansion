@@ -17,19 +17,19 @@ func _ready():
 # Handling Host button 'pressed' signal #######################################
 ###############################################################################
 func _on_Host_pressed():
-    # If the Player Name is 'dedicated_server'. This is likely to be deprecated
-    # and removed at a later date
+	# If the Player Name is 'dedicated_server'. This is likely to be deprecated
+	# and removed at a later date
 	if _player_name == "dedicated_server":
 		Network.create_server()
-        # hide the ui console menu
-        hide()
-        # Do not instance a player for the dedicated server
+		# hide the ui console menu
+		hide()
+		# Do not instance a player for the dedicated server
 	else:
 		Network.create_server()
-        # hide the ui console menu
-        hide()
+		# hide the ui console menu
+		hide()
 		Global.emit_signal("instance_player",
-            get_tree().get_network_unique_id())
+			get_tree().get_network_unique_id())
 
 ###############################################################################
 # Handling Join button 'pressed' signal #######################################
