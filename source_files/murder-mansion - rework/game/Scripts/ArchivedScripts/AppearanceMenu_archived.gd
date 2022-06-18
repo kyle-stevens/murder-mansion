@@ -1,14 +1,8 @@
-###############################################################################
-# AppearanceMenu Script #######################################################
-###############################################################################
-
 extends Control
 
-# Ready Function - Does not do anything for the menu
 func _ready():
 	pass
 
-###HAT BUTTON SIGNAL FUNCTIONS#################################################
 func _on_Crown_pressed():
 	PlayerVariables.player_hat = "res://Assets/hats/crown.obj"
 
@@ -24,7 +18,6 @@ func _on_TopHat_pressed():
 func _on_VikingHat_pressed():
 	PlayerVariables.player_hat = "res://Assets/hats/vikingHat.obj"
 
-###COLOR BUTTON FUNCTIONS######################################################
 func _on_White_pressed():
 	PlayerVariables.player_color = "res://Assets/player_materials/White.tres"
 
@@ -52,9 +45,6 @@ func _on_Brown_pressed():
 func _on_Teal_pressed():
 	PlayerVariables.player_color = "res://Assets/player_materials/Teal.tres"
 
-###TERTIARY FUNCTIONS##########################################################
-
-# Recapture mouse and close appearance menu
 func _on_Exit_pressed():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	self.queue_free()
