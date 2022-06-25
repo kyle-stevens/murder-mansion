@@ -61,34 +61,34 @@ func join_server():
 	get_tree().set_network_peer(client)
 
 ###############################################################################
-
+# Debug Information when Server is successfully joined ########################
 ###############################################################################
 func _connected_to_server():
 	print("CONNECTED SUCCESSFULLY")
 
 ###############################################################################
-
+# Debug Information when Server is successfully left ##########################
 ###############################################################################
 func _server_disconnected():
 	print("DISCONNECTED FROM SERVER")
 	reset_network_connection()
 
 ###############################################################################
-
+# Debug Information when Server connection fails ##############################
 ###############################################################################
 func _connection_failed():
 	print("CONNECTION ATTEMPT FAILED")
 	reset_network_connection()
 
 ###############################################################################
-
+# Reset the Network Connections ###############################################
 ###############################################################################
 func reset_network_connection():
 	if get_tree().has_network_peer():
 		get_tree().network_peer = null
 
 ###############################################################################
-
+# Debug Information for when Player joins server ##############################
 ###############################################################################
 func _player_connected(id):
 	print("PEER " + str(id) + " HAS CONNECTED")
