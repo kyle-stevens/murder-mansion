@@ -444,6 +444,11 @@ puppet func update_state(
 	puppet_hat = p_player_hat
 	if Global.map_code == 0:
 		Global.map_code = p_map_code
+	# If Global Map Code has changed from 0, resend start_game signal to trigger 
+	# map change across all other players. May not be necessary
+	if Global.map_code != 0:
+		Global.emit_signal("start_game")
+		pass
 	movement_tween.interpolate_property(
 		self,
 		"global_transform",
@@ -479,4 +484,7 @@ func _on_network_tick_rate_timeout():
 ###############################################################################
 func _start_game():
 	#will be randomly generated later on
-	Global.map_code = 152
+	if(Global.map_code == 0):
+		Global.map_code = RandomNumberGenerator.new().randi_range(1, 1000)
+	else:
+		pass

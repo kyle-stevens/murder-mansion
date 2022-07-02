@@ -21,11 +21,29 @@ func _ready():
 	get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
 	
 	Global.connect("instance_player", self, "_instance_player")
-	
+	Global.connect("start_game",self,"_start_game")
 	
 	if get_tree().network_peer != null:
 		Global.emit_signal("toggle_network_setup", false)
 	
+
+func _physics_process(delta):
+	pass
+	
+	
+#need to trigger this for all players on map code change
+func _start_game():
+	if Global.map_code != 0:
+		#Get root node of game scene
+		var root_node_current = get_tree().get_current_scene()
+		
+		print("WE CHANGE THE WORLD NOW") #reset global.map_id after this to prevent changes
+		$Map/AppearanceMenuConsole.queue_free() #seems that triggering signal twice is causing issues, restructure needed in player instance to fix this
+		$Map/StartGame.queue_free()
+		$Map/Roof_Slats.queue_free()
+		Global.map_code = 0
+		
+
 func _instance_player(id):
 
 	

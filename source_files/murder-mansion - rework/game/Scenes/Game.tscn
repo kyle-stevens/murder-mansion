@@ -132,35 +132,35 @@ shape = SubResource( 1 )
 width = 10.0
 depth = 10.0
 
-[node name="Roof Slats" type="CanvasLayer" parent="Map"]
+[node name="Roof_Slats" type="CanvasLayer" parent="Map"]
 
-[node name="Roof" type="StaticBody" parent="Map/Roof Slats"]
+[node name="Roof" type="StaticBody" parent="Map/Roof_Slats"]
 transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 1, 0, 49, 0 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Map/Roof Slats/Roof"]
+[node name="CollisionShape" type="CollisionShape" parent="Map/Roof_Slats/Roof"]
 shape = SubResource( 1 )
 
-[node name="CSGBox" type="CSGBox" parent="Map/Roof Slats/Roof"]
+[node name="CSGBox" type="CSGBox" parent="Map/Roof_Slats/Roof"]
 width = 10.0
 depth = 10.0
 
-[node name="Roof3" type="StaticBody" parent="Map/Roof Slats"]
+[node name="Roof3" type="StaticBody" parent="Map/Roof_Slats"]
 transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 1, 0, 49, -28 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Map/Roof Slats/Roof3"]
+[node name="CollisionShape" type="CollisionShape" parent="Map/Roof_Slats/Roof3"]
 shape = SubResource( 1 )
 
-[node name="CSGBox" type="CSGBox" parent="Map/Roof Slats/Roof3"]
+[node name="CSGBox" type="CSGBox" parent="Map/Roof_Slats/Roof3"]
 width = 10.0
 depth = 10.0
 
-[node name="Roof7" type="StaticBody" parent="Map/Roof Slats"]
+[node name="Roof7" type="StaticBody" parent="Map/Roof_Slats"]
 transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 1, 0, 49, 30 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Map/Roof Slats/Roof7"]
+[node name="CollisionShape" type="CollisionShape" parent="Map/Roof_Slats/Roof7"]
 shape = SubResource( 1 )
 
-[node name="CSGBox" type="CSGBox" parent="Map/Roof Slats/Roof7"]
+[node name="CSGBox" type="CSGBox" parent="Map/Roof_Slats/Roof7"]
 width = 10.0
 depth = 10.0
 
