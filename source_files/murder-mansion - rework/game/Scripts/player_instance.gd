@@ -446,7 +446,7 @@ puppet func update_state(
 		Global.map_code = p_map_code
 	# If Global Map Code has changed from 0, resend start_game signal to trigger 
 	# map change across all other players. May not be necessary
-	if Global.map_code != 0:
+	if Global.map_code != 0 and not Global.game_started:
 		Global.emit_signal("start_game")
 		pass
 	movement_tween.interpolate_property(

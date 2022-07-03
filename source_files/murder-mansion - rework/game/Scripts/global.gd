@@ -11,6 +11,7 @@ signal start_game
 
 ###VARIABLES###################################################################
 var map_code : int = 0
+var game_started : bool = false
 
 ###############################################################################
 # Tracks Global Input to perform Non Situational Inputs #######################

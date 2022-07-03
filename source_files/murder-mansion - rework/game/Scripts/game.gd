@@ -33,15 +33,19 @@ func _physics_process(delta):
 	
 #need to trigger this for all players on map code change
 func _start_game():
-	if Global.map_code != 0:
+	if Global.map_code != 0 and not Global.game_started:
 		#Get root node of game scene
 		var root_node_current = get_tree().get_current_scene()
 		
 		print("WE CHANGE THE WORLD NOW") #reset global.map_id after this to prevent changes
-		$Map/AppearanceMenuConsole.queue_free() #seems that triggering signal twice is causing issues, restructure needed in player instance to fix this
-		$Map/StartGame.queue_free()
-		$Map/Roof_Slats.queue_free()
+		if ($Map/AppearanceMenuConsole):
+			$Map/AppearanceMenuConsole.queue_free() #seems that triggering signal twice is causing issues, restructure needed in player instance to fix this
+		if ($Map/StartGame):
+			$Map/StartGame.queue_free()
+		if ($Map/Roof_Slats):
+			$Map/Roof_Slats.queue_free()
 		Global.map_code = 0
+		Global.game_started = true
 		
 
 func _instance_player(id):
