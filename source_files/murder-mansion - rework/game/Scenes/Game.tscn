@@ -49,29 +49,30 @@ margin_bottom = 24.0
 text = "Player Name"
 
 [node name="IpAddress" type="LineEdit" parent="NetworkSetup/VBoxContainer"]
+visible = false
 margin_top = 28.0
 margin_right = 350.0
 margin_bottom = 52.0
 text = "IP Address"
 
 [node name="Host" type="Button" parent="NetworkSetup/VBoxContainer"]
-margin_top = 56.0
+margin_top = 28.0
 margin_right = 350.0
-margin_bottom = 116.0
+margin_bottom = 88.0
 rect_min_size = Vector2( 0, 60 )
 text = "HOST"
 
 [node name="Join" type="Button" parent="NetworkSetup/VBoxContainer"]
-margin_top = 120.0
+margin_top = 92.0
 margin_right = 350.0
-margin_bottom = 180.0
+margin_bottom = 152.0
 rect_min_size = Vector2( 0, 60 )
 text = "JOIN"
 
 [node name="CheckButton" type="CheckButton" parent="NetworkSetup/VBoxContainer"]
-margin_top = 184.0
+margin_top = 156.0
 margin_right = 350.0
-margin_bottom = 224.0
+margin_bottom = 196.0
 text = "Male(on)/Female(off)"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]

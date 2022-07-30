@@ -167,7 +167,8 @@ func process_inputs(delta):
 			var left = false
 			var right = false
 			
-			#Basic Movement - only way to avoid animation glitch is elif statements instead of all ifs
+			#Basic Movement - only way to avoid animation glitch is elif 
+			#statements instead of all ifs
 			if Input.is_action_pressed("movement_forward"):
 				input_movement_vector.y += 1
 				forward = true
