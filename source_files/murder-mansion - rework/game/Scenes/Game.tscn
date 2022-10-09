@@ -258,6 +258,7 @@ transform = Transform( 1.33118e-07, 0, -1, 0, 1, 0, 1, 0, 1.33118e-07, -39.5, 12
 [node name="DirectionalLight" type="DirectionalLight" parent="Map"]
 transform = Transform( 1, 0, 0, 0, 0.0871558, 0.996195, 0, -0.996195, 0.0871558, 0, 65, 0 )
 light_color = Color( 0.721569, 0.74902, 0.847059, 1 )
+light_energy = 0.1
 shadow_enabled = true
 
 [node name="AppearanceMenuConsole" parent="Map" instance=ExtResource( 2 )]

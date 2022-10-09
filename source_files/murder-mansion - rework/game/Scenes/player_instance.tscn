@@ -90,4 +90,10 @@ margin_right = 300.0
 margin_bottom = 14.0
 value = 100.0
 
+[node name="KillerSpotlight" type="SpotLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 1.19249e-08, 1, 0, -1, 1.19249e-08, 0, 3.29183, 0 )
+light_color = Color( 1, 0, 0, 1 )
+light_energy = 0.0
+spot_angle = 16.9673
+
 [connection signal="timeout" from="network_tick_rate" to="." method="_on_network_tick_rate_timeout"]

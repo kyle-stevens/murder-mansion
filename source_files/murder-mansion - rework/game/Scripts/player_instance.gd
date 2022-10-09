@@ -5,14 +5,15 @@
 extends KinematicBody
 
 ###CONSTANTS###################################################################
-const ACCEL = 4.5
-const DEACCEL = 16
-const SPRINT_ACCEL = 18
-const MAX_SLOPE_ANGLE = 40
-const MAX_SPEED = 8
-const MAX_SPRINT_SPEED = 15
-const JUMP_SPEED = 15 #9
-const GRAVITY = -24.8
+# assumed to be in metric m/s, m/s^2, etc
+const ACCEL = 4.5 #m/s^2
+const DEACCEL = 16 #m/s^2
+const SPRINT_ACCEL = 18 #m/s^2
+const MAX_SLOPE_ANGLE = 40 
+const MAX_SPEED = 8 #m/s
+const MAX_SPRINT_SPEED = 15 #m/s
+const JUMP_SPEED = 5 #m/s^2 #9
+const GRAVITY = -9.8 #m/s^2
 
 ###PUPPET VARIABLES############################################################
 var puppet_name : String = ""
@@ -26,6 +27,7 @@ var puppet_color : String = ""
 var puppet_hat : String = ""
 var puppet_nametag : String
 var puppet_alive : bool = true
+var puppet_killer_spotlight = 0
 
 export(NodePath) onready var movement_tween = \
 	get_node("movement_tween") as Tween
@@ -196,7 +198,9 @@ func initFunc():
 # for all entities in the world scene #########################################
 ###############################################################################
 func _physics_process(delta):
-
+	if is_network_master():
+		if $KillerSpotlight.light_energy > 0:
+			$KillerSpotlight.light_energy -= 0.1
 	# Handling for network connectivity waiting and hosting timing
 	if (puppet_name == "" and
 	puppet_anim == "animationIdle" and
@@ -237,7 +241,8 @@ func _input(event):
 ###############################################################################
 func process_inputs(delta):
 		if is_network_master():
-
+			if Input.is_action_just_pressed("fire_grenade"):
+				$KillerSpotlight.light_energy = 5
 			# Handling Sprint Recharge Mechanic
 			if sprint_recharge:
 				if sprint_energy <= 50:
@@ -402,6 +407,7 @@ func process_movement(delta):
 		rotation.y = puppet_rot.y
 		camera.rotation.x = puppet_rot.x
 		flashlight.visible = puppet_flash
+		$KillerSpotlight.light_energy = puppet_killer_spotlight
 
 	if !movement_tween.is_active():
 		vel = move_and_slide(
@@ -431,6 +437,7 @@ puppet func update_state(
 	p_player_model,
 	p_player_color,
 	p_player_hat,
+	p_killer_spotlight,
 	p_map_code
 	):
 	puppet_pos = p_position
@@ -442,6 +449,7 @@ puppet func update_state(
 	puppet_model = p_player_model
 	puppet_color = p_player_color
 	puppet_hat = p_player_hat
+	puppet_killer_spotlight = p_killer_spotlight
 	if Global.map_code == 0:
 		Global.map_code = p_map_code
 	# If Global Map Code has changed from 0, resend start_game signal to trigger 
@@ -474,6 +482,7 @@ func _on_network_tick_rate_timeout():
 			PlayerVariables.player_model,
 			PlayerVariables.player_color,
 			PlayerVariables.player_hat,
+			$KillerSpotlight.light_energy,
 			Global.map_code
 			)
 	else:
