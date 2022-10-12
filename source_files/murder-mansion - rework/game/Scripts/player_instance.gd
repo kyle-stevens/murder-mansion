@@ -45,6 +45,7 @@ var vel : Vector3 = Vector3()
 var dir : Vector3 = Vector3()
 var sprint_energy : int
 var sprint_recharge : bool
+var kick_target : KinematicBody
 
 ######FLASHLIGHT###############################################################
 var flashlight : SpotLight
@@ -243,6 +244,9 @@ func process_inputs(delta):
 		if is_network_master():
 			if Input.is_action_just_pressed("fire_grenade"):
 				$KillerSpotlight.light_energy = 5
+				print(self.kick_target)
+				
+				
 			# Handling Sprint Recharge Mechanic
 			if sprint_recharge:
 				if sprint_energy <= 50:
@@ -497,3 +501,14 @@ func _start_game():
 		Global.map_code = RandomNumberGenerator.new().randi_range(1, 1000)
 	else:
 		pass
+
+
+func _on_kick_area_body_entered(body):
+	if body is KinematicBody:
+		self.kick_target = body
+
+
+func _on_kick_area_body_exited(body):
+	if body is KinematicBody:
+		if body == self.kick_target:
+			self.kick_target == null

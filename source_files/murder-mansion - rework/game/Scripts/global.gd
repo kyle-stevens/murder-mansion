@@ -25,4 +25,4 @@ func _input(event):
 			pass
 
 func _process(delta):
-	print(colors)
+	pass #print(colors)
