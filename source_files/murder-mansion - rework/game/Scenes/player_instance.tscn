@@ -49,6 +49,7 @@ spot_angle_attenuation = 3.0
 
 [node name="player_camera" type="Camera" parent="rotation_helper"]
 transform = Transform( -1, 0, -8.74227e-08, 0, 1, 0, 8.74227e-08, 0, -0.999999, 0, 1.4, -4.4 )
+current = true
 
 [node name="network_tick_rate" type="Timer" parent="."]
 wait_time = 0.03

@@ -244,7 +244,9 @@ func process_inputs(delta):
 		if is_network_master():
 			if Input.is_action_just_pressed("fire_grenade"):
 				$KillerSpotlight.light_energy = 5
-				print(self.kick_target)
+				if self.kick_target != null:
+					self.kick_target.move_and_slide(Vector3.UP * 100) #not being triggered
+					print("KICK")
 				
 				
 			# Handling Sprint Recharge Mechanic
