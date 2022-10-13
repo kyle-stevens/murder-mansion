@@ -92,3 +92,5 @@ func _on_Teal_pressed():
 func _on_Exit_pressed():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	self.queue_free()
+
+
