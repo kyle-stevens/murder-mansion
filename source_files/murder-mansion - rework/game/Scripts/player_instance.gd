@@ -27,6 +27,7 @@ var puppet_color : String = ""
 var puppet_hat : String = ""
 var puppet_nametag : String
 var puppet_alive : bool = true
+var puppet_is_kicking : bool = false
 var puppet_killer_spotlight = 0
 
 export(NodePath) onready var movement_tween = \
@@ -45,7 +46,7 @@ var vel : Vector3 = Vector3()
 var dir : Vector3 = Vector3()
 var sprint_energy : int
 var sprint_recharge : bool
-var kick_target : KinematicBody
+var is_kicking : bool = false
 
 ######FLASHLIGHT###############################################################
 var flashlight : SpotLight
@@ -243,11 +244,9 @@ func _input(event):
 func process_inputs(delta):
 		if is_network_master():
 			if Input.is_action_just_pressed("fire_grenade"):
-				$KillerSpotlight.light_energy = 5
-				if self.kick_target != null:
-					self.kick_target.move_and_slide(Vector3.UP * 100) #not being triggered
-					print("KICK")
-				
+				self.is_kicking = true
+			if self.is_kicking:
+				_kick()
 				
 			# Handling Sprint Recharge Mechanic
 			if sprint_recharge:
@@ -414,6 +413,11 @@ func process_movement(delta):
 		camera.rotation.x = puppet_rot.x
 		flashlight.visible = puppet_flash
 		$KillerSpotlight.light_energy = puppet_killer_spotlight
+		self.is_kicking = puppet_is_kicking #need to implement actual kick now
+		print(self.is_kicking)
+		if self.is_kicking:
+			_kick()
+			print("kick")
 
 	if !movement_tween.is_active():
 		vel = move_and_slide(
@@ -444,6 +448,7 @@ puppet func update_state(
 	p_player_color,
 	p_player_hat,
 	p_killer_spotlight,
+	p_is_kicking,
 	p_map_code
 	):
 	puppet_pos = p_position
@@ -456,6 +461,7 @@ puppet func update_state(
 	puppet_color = p_player_color
 	puppet_hat = p_player_hat
 	puppet_killer_spotlight = p_killer_spotlight
+	puppet_is_kicking = p_is_kicking
 	if Global.map_code == 0:
 		Global.map_code = p_map_code
 	# If Global Map Code has changed from 0, resend start_game signal to trigger 
@@ -489,8 +495,10 @@ func _on_network_tick_rate_timeout():
 			PlayerVariables.player_color,
 			PlayerVariables.player_hat,
 			$KillerSpotlight.light_energy,
+			self.is_kicking,
 			Global.map_code
 			)
+			#add kick in here as an action
 	else:
 		network_tick_rate.stop()
 
@@ -504,13 +512,13 @@ func _start_game():
 	else:
 		pass
 
+func _kick():
+	#needs to dely to get caught by network kick collider is causing jittering on forward movement, must fix
+	if $Spatial.rotation.x == 0:
+		$KillerSpotlight.light_energy = 5 #need to make this only trigger once
+	if $Spatial.rotation.x < 55.0:
+		$Spatial.rotate_x(0.5)
+	else:
+		$Spatial.rotate_x(-55.0)
+	#self.is_kicking = false
 
-func _on_kick_area_body_entered(body):
-	if body is KinematicBody:
-		self.kick_target = body
-
-
-func _on_kick_area_body_exited(body):
-	if body is KinematicBody:
-		if body == self.kick_target:
-			self.kick_target == null

@@ -23,10 +23,13 @@ script = ExtResource( 1 )
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.109, 0 )
 shape = SubResource( 1 )
 
-[node name="kick_area" type="Area" parent="."]
+[node name="Spatial" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.573576, -0.819152, 0, 0.819152, 0.573576, 0, 0, 0 )
 
-[node name="kick_collision" type="CollisionShape" parent="kick_area"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.1, 1 )
+[node name="kick_area" type="StaticBody" parent="Spatial"]
+
+[node name="kick_collision" type="CollisionShape" parent="Spatial/kick_area"]
+transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0.1, 1 )
 shape = SubResource( 6 )
 
 [node name="feet_collision" type="CollisionShape" parent="."]
@@ -106,6 +109,4 @@ light_color = Color( 1, 0, 0, 1 )
 light_energy = 0.0
 spot_angle = 16.9673
 
-[connection signal="body_entered" from="kick_area" to="." method="_on_kick_area_body_entered"]
-[connection signal="body_exited" from="kick_area" to="." method="_on_kick_area_body_exited"]
 [connection signal="timeout" from="network_tick_rate" to="." method="_on_network_tick_rate_timeout"]
