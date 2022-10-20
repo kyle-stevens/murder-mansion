@@ -76,7 +76,8 @@ func _ready():
 	# Connect the _start_game function which will generate a map code from a
 	# chosen seed (yet to be implemented)
 	Global.connect("start_game",self,"_start_game")
-
+	
+	
 	# Enable and/or disable ui based on whether player is/isn't the network
 	# master player
 	if is_network_master():
@@ -87,7 +88,17 @@ func _ready():
 		# Rect_size.x instead of Rectsize.x/2 bc of scaling of label
 
 		$UI/popupMesg.text = ""
+		self.set_collision_layer(1)
+		self.set_collision_mask(1)
+		$Spatial/kick_area.set_collision_layer(2)
+		$Spatial/kick_area.set_collision_mask(2)
+		
+		print($Spatial/kick_area.collision_layer)
 	else:
+		self.set_collision_layer(2)
+		self.set_collision_mask(2)
+		$Spatial/kick_area.set_collision_layer(1)
+		$Spatial/kick_area.set_collision_mask(1)
 		$UI.visible = false
 
 ###############################################################################
@@ -245,6 +256,7 @@ func process_inputs(delta):
 		if is_network_master():
 			if Input.is_action_just_pressed("fire_grenade"):
 				self.is_kicking = true
+				$KillerSpotlight.light_energy = 5 #need to make this only trigger once
 			if self.is_kicking:
 				_kick()
 				
@@ -381,6 +393,7 @@ func process_inputs(delta):
 # the player instance #########################################################
 ###############################################################################
 func process_movement(delta):
+	#print($Spatial.rotation_degrees)
 	dir.y = 0
 	dir = dir.normalized()
 	vel.y += delta * GRAVITY
@@ -512,13 +525,10 @@ func _start_game():
 	else:
 		pass
 
+#not the desired effect, will need to rework. Perhaps in other side of code...
 func _kick():
-	#needs to dely to get caught by network kick collider is causing jittering on forward movement, must fix
-	if $Spatial.rotation.x == 0:
-		$KillerSpotlight.light_energy = 5 #need to make this only trigger once
-	if $Spatial.rotation.x < 55.0:
-		$Spatial.rotate_x(0.5)
-	else:
-		$Spatial.rotate_x(-55.0)
-	#self.is_kicking = false
-
+	if self.is_kicking and $Spatial/kick_area.translation.z < 5.0:
+		$Spatial/kick_area.translation.z += 1.0
+	if $Spatial/kick_area.translation.z >= 5.0:
+		$Spatial/kick_area.translation.z = 0.0
+		self.is_kicking = false
