@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://c07nsjqlmfboi"]
+
+[ext_resource type="Script" path="res://Player/player.gd" id="1_kvdm2"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_n1bae"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_kvdm2")
+
+[node name="CollisionBody" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_n1bae")
+
+[node name="PlayerModel" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="RotationHelper" type="Node3D" parent="."]
+
+[node name="Flashlight" type="SpotLight3D" parent="RotationHelper"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0.5)
+
+[node name="Camera3D" type="Camera3D" parent="RotationHelper"]
+transform = Transform3D(-1, 4.37114e-08, -7.57103e-08, 0, 0.866025, 0.5, 8.74228e-08, 0.5, -0.866025, 0, 1.5, -2.5)

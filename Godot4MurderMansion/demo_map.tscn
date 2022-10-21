@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid="uid://bcwy31eynckhu"]
+
+[ext_resource type="PackedScene" uid="uid://c07nsjqlmfboi" path="res://Player/player.tscn" id="1_jqvma"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4nd8t"]
+size = Vector3(20, 1, 20)
+
+[node name="DemoMap" type="Node3D"]
+
+[node name="FloorTile" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FloorTile"]
+shape = SubResource("BoxShape3D_4nd8t")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="FloorTile"]
+size = Vector3(20, 1, 20)
+
+[node name="FloorTile2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FloorTile2"]
+shape = SubResource("BoxShape3D_4nd8t")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="FloorTile2"]
+size = Vector3(20, 1, 20)
+
+[node name="FloorTile3" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FloorTile3"]
+shape = SubResource("BoxShape3D_4nd8t")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="FloorTile3"]
+size = Vector3(20, 1, 20)
+
+[node name="FloorTile4" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 20)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FloorTile4"]
+shape = SubResource("BoxShape3D_4nd8t")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="FloorTile4"]
+size = Vector3(20, 1, 20)
+
+[node name="Player" parent="." instance=ExtResource("1_jqvma")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 0)
