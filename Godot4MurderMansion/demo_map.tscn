@@ -1,9 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://bcwy31eynckhu"]
+[gd_scene load_steps=6 format=3 uid="uid://bcwy31eynckhu"]
 
 [ext_resource type="PackedScene" uid="uid://c07nsjqlmfboi" path="res://Player/player.tscn" id="1_jqvma"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_4nd8t"]
 size = Vector3(20, 1, 20)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_okc4c"]
+sky_energy_multiplier = 2.08
+
+[sub_resource type="Sky" id="Sky_l7khh"]
+sky_material = SubResource("ProceduralSkyMaterial_okc4c")
+
+[sub_resource type="Environment" id="Environment_f7dbk"]
+background_mode = 2
+sky = SubResource("Sky_l7khh")
+ambient_light_color = Color(1, 1, 1, 1)
 
 [node name="DemoMap" type="Node3D"]
 
@@ -42,5 +53,44 @@ shape = SubResource("BoxShape3D_4nd8t")
 [node name="CSGBox3D" type="CSGBox3D" parent="FloorTile4"]
 size = Vector3(20, 1, 20)
 
+[node name="FloorTile5" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 3, 41)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FloorTile5"]
+shape = SubResource("BoxShape3D_4nd8t")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="FloorTile5"]
+size = Vector3(20, 1, 20)
+
+[node name="FloorTile6" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 6, 41)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FloorTile6"]
+shape = SubResource("BoxShape3D_4nd8t")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="FloorTile6"]
+size = Vector3(20, 1, 20)
+
+[node name="FloorTile7" type="StaticBody3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -9.5, 8, 19.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FloorTile7"]
+shape = SubResource("BoxShape3D_4nd8t")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="FloorTile7"]
+size = Vector3(20, 1, 20)
+
+[node name="FloorTile8" type="StaticBody3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -9.5, 11, -1.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FloorTile8"]
+shape = SubResource("BoxShape3D_4nd8t")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="FloorTile8"]
+size = Vector3(20, 1, 20)
+
 [node name="Player" parent="." instance=ExtResource("1_jqvma")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_f7dbk")

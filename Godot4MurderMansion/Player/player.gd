@@ -41,7 +41,7 @@ func _ready():
 	self.animation_player = get_node("PlayerModel/PLAYER_MODEL/ybot/AnimationPlayer")
 	
 	# Start Idle Animation
-	self.animation_player.play("Locomotion-Library/idle2")
+	self.animation_player.play("Idle")
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
@@ -71,48 +71,49 @@ func process_inputs(delta):
 	var backward = false
 	var left = false
 	var right = false
-
-	if Input.is_action_pressed("movement_forward"):
-		input_movement_vector.y += 1
-		forward = true
-	if Input.is_action_pressed("movement_backward"):
-		input_movement_vector.y -= 1
-		backward = true
-	if Input.is_action_pressed("movement_left"):
-		input_movement_vector.x -= 1
-		left = true
-	if Input.is_action_pressed("movement_right"):
-		input_movement_vector.x += 1
-		right = true
 	
+	if is_on_floor():
+		if Input.is_action_pressed("movement_forward"):
+			input_movement_vector.y += 1
+			forward = true
+		elif Input.is_action_pressed("movement_backward"):
+			input_movement_vector.y -= 1
+			backward = true
+		elif Input.is_action_pressed("movement_left"):
+			input_movement_vector.x -= 1
+			left = true
+		elif Input.is_action_pressed("movement_right"):
+			input_movement_vector.x += 1
+			right = true
+	# Strafe Run and Walk are mixed up :(
 	if self.is_sprinting:
 		if forward:
-			self.animation_player.play("Locomotion-Library/run")
+			self.animation_player.play("Run")
 		if backward:
-			self.animation_player.play_backwards("Locomation-Library/run")
+			self.animation_player.play_backwards("Run")
 		if left:
-			pass
+			self.animation_player.play("LeftStrafeWalk")
 		if right:
-			pass
+			self.animation_player.play("RightStrafeWalk")
 	elif not self.is_sprinting:
 		if forward:
-			self.animation_player.play("Locomotion-Library/walk")
+			self.animation_player.play("Walk")
 		if backward:
-			self.animation_player.play_backwards("Locomation-Library/walk")
+			self.animation_player.play_backwards("Walk")
 		if left:
-			pass
+			self.animation_player.play("LeftStrafeRun")
 		if right:
-			pass
+			self.animation_player.play("RightStrafeRun")
 
 	# Handle Idle Animation
 	if abs(vel.x) < 1 and \
 		abs(vel.y) < 1 and \
 		abs(vel.z) < 1 and \
 		is_on_floor():
-		animation_player.play("Locomotion-Library/idle2")
+		animation_player.play("Idle")
 
 	if not is_on_floor():
-		animation_player.play("Locomotion-Library/jump-short")
+		animation_player.play("Jumping")
 
 	input_movement_vector = input_movement_vector.normalized()
 
@@ -123,7 +124,7 @@ func process_inputs(delta):
 	if is_on_floor():
 		if Input.is_action_just_pressed("movement_jump"):
 			vel.y = JUMP_VELOCITY
-			animation_player.play("Locomotion-Library/jump-short")
+			animation_player.play("Jumping")
 
 	#Cursor Freeing
 	if Input.is_action_just_pressed("ui_cancel"):
@@ -141,10 +142,12 @@ func process_inputs(delta):
 			flashlight.visible = true
 
 	#Sprinting Movement
-	if Input.is_action_pressed("movement_sprint"):
-		is_sprinting = true
+	if Input.is_action_pressed("movement_sprint") and backward == false:
+		#is_sprinting = true
+		self.is_sprinting = true
 	else:
-		is_sprinting = false
+		self.is_sprinting = false
+		
 	
 func process_movement(delta):
 	dir.y = 0
@@ -160,9 +163,12 @@ func process_movement(delta):
 	else:
 		target *= MAX_SPEED
 	var accel
+	
 	if dir.dot(hvel) > 0:
-		if is_sprinting:
+		if self.is_sprinting:
 			accel = ACCEL * 1.5
+		elif self.is_sprinting:
+			self.is_sprinting = false
 		else:
 			accel = ACCEL
 	else:
@@ -173,7 +179,7 @@ func process_movement(delta):
 	self.set_velocity(vel)
 	move_and_slide()
 	vel = self.get_velocity()
-	print(self.get_velocity())
+	#print(self.get_velocity())
 	#print(move_and_slide())
 	#vel = move_and_slide(vel,Vector3(0,1,0),0.05,4,deg_to_rad(self.max_slides))
 

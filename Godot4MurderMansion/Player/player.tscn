@@ -1,14 +1,24 @@
-[gd_scene load_steps=3 format=3 uid="uid://c07nsjqlmfboi"]
+[gd_scene load_steps=4 format=3 uid="uid://c07nsjqlmfboi"]
 
 [ext_resource type="Script" path="res://Player/player.gd" id="1_kvdm2"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_n1bae"]
+radius = 0.305819
+height = 1.72613
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dqa4g"]
+size = Vector3(0.6, 0.249, 0.6)
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_kvdm2")
 
 [node name="CollisionBody" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.124286, 0)
 shape = SubResource("CapsuleShape3D_n1bae")
+
+[node name="CollisionFeet" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.818821, 0)
+shape = SubResource("BoxShape3D_dqa4g")
 
 [node name="PlayerModel" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
@@ -19,4 +29,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0.5)
 
 [node name="Camera3D" type="Camera3D" parent="RotationHelper"]
-transform = Transform3D(-1, 4.37114e-08, -7.57103e-08, 0, 0.866025, 0.5, 8.74228e-08, 0.5, -0.866025, 0, 1.5, -2.5)
+transform = Transform3D(-1, -2.26267e-08, 8.44439e-08, 0, 0.965926, 0.258819, -8.74228e-08, 0.258819, -0.965926, 0, 1, -1.5)
