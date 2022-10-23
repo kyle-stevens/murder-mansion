@@ -41,7 +41,7 @@ func _ready():
 	self.animation_player = get_node("PlayerModel/PLAYER_MODEL/ybot/AnimationPlayer")
 	
 	# Start Idle Animation
-	self.animation_player.play("Idle")
+	self.animation_player.play("Library/Idle")
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
@@ -88,32 +88,32 @@ func process_inputs(delta):
 	# Strafe Run and Walk are mixed up :(
 	if self.is_sprinting:
 		if forward:
-			self.animation_player.play("Run")
+			self.animation_player.play("Library/Run")
 		if backward:
-			self.animation_player.play_backwards("Run")
+			self.animation_player.play_backwards("Library/Run")
 		if left:
-			self.animation_player.play("LeftStrafeWalk")
+			self.animation_player.play("Library/LeftStrafeWalk")
 		if right:
-			self.animation_player.play("RightStrafeWalk")
+			self.animation_player.play("Library/RightStrafeWalk")
 	elif not self.is_sprinting:
 		if forward:
-			self.animation_player.play("Walk")
+			self.animation_player.play("Library/Walk")
 		if backward:
 			self.animation_player.play_backwards("Walk")
 		if left:
-			self.animation_player.play("LeftStrafeRun")
+			self.animation_player.play("Library/LeftStrafeRun")
 		if right:
-			self.animation_player.play("RightStrafeRun")
+			self.animation_player.play("Library/RightStrafeRun")
 
 	# Handle Idle Animation
 	if abs(vel.x) < 1 and \
 		abs(vel.y) < 1 and \
 		abs(vel.z) < 1 and \
 		is_on_floor():
-		animation_player.play("Idle")
+		animation_player.play("Library/Idle")
 
 	if not is_on_floor():
-		animation_player.play("Jumping")
+		animation_player.play("Library/Jumping")
 
 	input_movement_vector = input_movement_vector.normalized()
 
@@ -124,7 +124,7 @@ func process_inputs(delta):
 	if is_on_floor():
 		if Input.is_action_just_pressed("movement_jump"):
 			vel.y = JUMP_VELOCITY
-			animation_player.play("Jumping")
+			animation_player.play("Library/Jumping")
 
 	#Cursor Freeing
 	if Input.is_action_just_pressed("ui_cancel"):
@@ -179,9 +179,6 @@ func process_movement(delta):
 	self.set_velocity(vel)
 	move_and_slide()
 	vel = self.get_velocity()
-	#print(self.get_velocity())
-	#print(move_and_slide())
-	#vel = move_and_slide(vel,Vector3(0,1,0),0.05,4,deg_to_rad(self.max_slides))
 
 func _input(event):
 	if event is InputEventMouseMotion and \

@@ -54,7 +54,7 @@ shape = SubResource("BoxShape3D_4nd8t")
 size = Vector3(20, 1, 20)
 
 [node name="FloorTile5" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 3, 41)
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, -20, 3, 40)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="FloorTile5"]
 shape = SubResource("BoxShape3D_4nd8t")
@@ -72,7 +72,7 @@ shape = SubResource("BoxShape3D_4nd8t")
 size = Vector3(20, 1, 20)
 
 [node name="FloorTile7" type="StaticBody3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -9.5, 8, 19.5)
+transform = Transform3D(-4.37114e-08, 0, 1, 0.258819, 0.965926, 1.13133e-08, -0.965926, 0.258819, -4.2222e-08, -9.5, 10, 22.5)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="FloorTile7"]
 shape = SubResource("BoxShape3D_4nd8t")
@@ -81,7 +81,7 @@ shape = SubResource("BoxShape3D_4nd8t")
 size = Vector3(20, 1, 20)
 
 [node name="FloorTile8" type="StaticBody3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -9.5, 11, -1.5)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -9.5, 9, 6.5)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="FloorTile8"]
 shape = SubResource("BoxShape3D_4nd8t")
